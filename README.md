@@ -3,7 +3,7 @@ Firmware Source For BeetTweek Eurorack Module - [submatrixaudio.com](https://sub
 
 STM32CubeIDE (>=1.9.0) Projects.
 
-After Cloning - Run python setup.py with python3.  This will condition the projects to use paths relative to your clone directory.
+After Cloning - Run setup.py with python3.  This will condition the projects to use paths relative to your clone directory.
 
 
 The Main Project is DSPBoardH7.  This is the firmware for the BeetTweek. 
