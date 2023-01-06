@@ -38,6 +38,7 @@
 #include "Modes/Mode_TorqueCurve.h"
 #include "Modes/Mode_Orbits.h"
 #include "Modes/Mode_Chords.h"
+#include "Modes/Mode_Clocks.h"
 
 #include "adcdacbuffers.h"
 
@@ -152,7 +153,7 @@ Mode_SequencedPluck mode_Pluck;
 Mode_TorqueCurve mode_TorqueCurve;
 Mode_Orbits mode_Orbits;
 Mode_Chords mode_Chords;
-
+Mode_Clocks mode_Clocks;
 
 
 extern "C" {
@@ -343,16 +344,19 @@ extern "C" {
 
 		modeManager.Initialize();
 
+		//Page 1
 		Mode* mode1 = modeManager.AddMode(&mode_Spring1);
+		modeManager.AddMode(&mode_Clocks);
 		modeManager.AddMode(&mode_TorqueFriction);
-		modeManager.AddMode(&mode_Indent1);
 		modeManager.AddMode(&mode_Rachet);
+		modeManager.AddMode(&mode_Indent1);
 		modeManager.AddMode(&mode_DJ);
-		modeManager.AddMode(&mode_Pluck);
 		modeManager.AddMode(&mode_TorqueCurve);
-
 		modeManager.AddMode(&mode_Orbits);
+
+		//Page 2
 		modeManager.AddMode(&mode_Chords);
+		modeManager.AddMode(&mode_Pluck);
 
 //		strcpy(mode_Knob1Hidden.modeUniqueName,"SuperPot");
 //		mode_Knob1Hidden.isHidden = false;
@@ -415,7 +419,7 @@ extern "C" {
 
 		//read front plate flip
 		ee24_read_32(EE_FLIPPED_FRONT_PLATE, (uint32_t*)(&LEDManager.panelReversed_), 1000);
-		if(LEDManager.panelReversed_ != 0 || LEDManager.panelReversed_ != 1)
+		if(LEDManager.panelReversed_ != 0 && LEDManager.panelReversed_ != 1)
 			LEDManager.panelReversed_ = 0;
 
 		//load friction factor

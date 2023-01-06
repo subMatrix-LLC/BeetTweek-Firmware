@@ -117,6 +117,9 @@ void Mode::Initialize()
 	inputOutputDescriptors[3].augments[0].gateTrigger = &tempo.trigger;
 
 
+
+
+
 	inputOutputDescriptors[4].enabled = false;
 	inputOutputDescriptors[4].numAugments = 1;
 	inputOutputDescriptors[4].buttonIdx = 4;
@@ -375,7 +378,6 @@ void Mode::PreAudioDSP(float sampleTime)
 				recentTapBps = tempo.bps_filtered;
 				recentTapBps_Counter = 1000;
 			}
-
 		}
 	}
 
@@ -1076,8 +1078,7 @@ void Mode::DebugPrint()
 
 float Mode::KnobAngleDeadZoneRemap(float knobAngle)
 {
-	const float deadZoneHalf = 0.05f;
-	if(knobAngle <= deadZoneHalf && knobAngle >= -deadZoneHalf)
+	if(knobAngle <= KNOB_DEAD_ZONE_ANGLE_HALF && knobAngle >= -KNOB_DEAD_ZONE_ANGLE_HALF)
 	{
 		return 0.0f;
 	}
@@ -1085,14 +1086,31 @@ float Mode::KnobAngleDeadZoneRemap(float knobAngle)
 	{
 		if(knobAngle > 0)
 		{
-			return (knobAngle - deadZoneHalf)/(1.0f - deadZoneHalf);
+			return knobAngle - KNOB_DEAD_ZONE_ANGLE_HALF;
 		}
 		else
 		{
-			return -((-knobAngle - deadZoneHalf)/(1.0f - deadZoneHalf));
+			return knobAngle + KNOB_DEAD_ZONE_ANGLE_HALF;
 		}
 	}
 
 }
 
+bool Mode::AngleInDeadZone(float knobAngle)
+{
+	if(knobAngle <= KNOB_DEAD_ZONE_ANGLE_HALF && knobAngle >= -KNOB_DEAD_ZONE_ANGLE_HALF)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+////return 0 when angle just outside of deadzone, 1 when in center of deadzone
+//float Mode::KnobAngleDeadZonePerc(float knobAngle)
+//{
+//
+//}
 

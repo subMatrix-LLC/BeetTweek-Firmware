@@ -46,7 +46,7 @@ extern "C" {
 
 
 
-static const uint32_t firmwareVersion = 15;
+static const uint32_t firmwareVersion = 16;
 extern volatile int fullyStartedUp;
 extern volatile int panelReversed;
 
@@ -59,7 +59,7 @@ extern volatile int panelReversed;
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define COMBINEDBOARD
+//#define COMBINEDBOARD
 
 #if defined(COMBINEDBOARD)
 #define VIRTUALCOMUSB

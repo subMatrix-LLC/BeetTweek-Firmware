@@ -68,6 +68,8 @@ extern arm_linear_interp_instance_f32 VoltToDACCalInterpInst[4];
 #define ANTCOGGPOINTS (720)
 #define ANTICOGGMINSAMPLES (200)
 
+#define KNOB_DEAD_ZONE_ANGLE_HALF (0.05)
+
 
 //Base Class For Modes - Minimal Functionality.
 class Mode {
@@ -366,7 +368,8 @@ public:
 	void RecordButtonLevelCycle();
 
 	//do a standard remap from angle (-1 to 1) to and output (-1 to 1) with dead zone equal to 0 with no jump out of deadzone.
-	float KnobAngleDeadZoneRemap(float torque);
+	float KnobAngleDeadZoneRemap(float angle);
+	bool AngleInDeadZone(float knobAngle);
 
 	//functions to be called from mode dsp code.
 	inline void SetDacValue(int channel, float value)
