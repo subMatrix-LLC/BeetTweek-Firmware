@@ -30,7 +30,7 @@ enum eFlashProtectionTypes
 } typedef eFlashProtectionTypes;
 
 
-void JumpToBootloader(void);
+void JumpToBootloader();
 
 
 

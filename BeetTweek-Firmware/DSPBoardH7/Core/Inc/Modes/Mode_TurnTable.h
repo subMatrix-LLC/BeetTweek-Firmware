@@ -50,7 +50,7 @@ public:
 
 	virtual int EEPromBytesUsed()
 	{
-		return Mode::EEPromBytesUsed() + sizeof(float)*3;
+		return Mode::EEPromBytesUsed() + sizeof(float)*3 + sizeof(unsigned int)*1;
 	}
 	virtual int EEPromAddressOffsets(int offset)
 	{
@@ -65,6 +65,9 @@ public:
 			break;
 		case 2:
 			byteOffset = sizeof(float)*2;
+			break;
+		case 3:
+			byteOffset = sizeof(float)*3;
 			break;
 		}
 
@@ -148,7 +151,8 @@ public:
 	MathExtras::CircularTapeRecordPlayback_Buffer2<float, float, DJ_REC_BUFF_NUM_SAMPLES> signalBuffer;
 	//SDBuffer<uint16_t, 512> audioBuffer;
 
-	void SaveAudioBuffer();
+	void SaveAudioBuffer(char* str);
+	uint32_t saveNumber = 1;
 
 	FIL audioFile;
 

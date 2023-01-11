@@ -43,10 +43,23 @@ public:
 	virtual void OnFuncCombo(int button);
 
 	//Prints Debug Information
-	//virtual void DebugPrint();
+	virtual void DebugPrint();
 
 
 	int subMode = 1;
+	int motorCalibrationMode = 0;
+	int calibrationMotorDirection = 0;
+	float timer = 0.0f;
+	float timer2 = 0.0f;
+
+	bool calModetransition = false;
+	float forwardTestVel1 = 0.0f;
+	float angleVar1 = 0.0f;
+	float angleVar2 = 0.0f;
+	float angleVar3 = 0.0f;
+	float angleVar4 = 0.0f;
+	float angleVar5 = 0.0f;
+	float oscilationRangeFiltered = 0.0f;
 
 	MathExtras::OscillatorSystem<double> osc;
 

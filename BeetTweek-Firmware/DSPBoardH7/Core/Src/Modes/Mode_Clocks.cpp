@@ -137,7 +137,7 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 
 
 
-	if(speedDelta <= 0.0f)
+	if(timeDelta <= 0.0f)
 	{
 
 		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::RED,  (MathExtras::Color*)&MathExtras::Color::RED, 0.5f);
@@ -150,14 +150,33 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 		{
 			LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::BLUE,  (MathExtras::Color*)&MathExtras::Color::BLUE, 0.5f);
 			inputOutputDescriptors[7].augments[0].baseColor = MathExtras::Color::BLUE;
+
+
+
 		}
 		else
 		{
 			LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::ORANGE,  (MathExtras::Color*)&MathExtras::Color::ORANGE, 0.5f);
 
 			inputOutputDescriptors[7].augments[0].baseColor = MathExtras::Color::ORANGE;
+
+
 		}
 	}
+
+	//quarter markers
+	for(int i = 1; i <= 3; i++)
+	{
+		if(rawAngle >= 0.25f*i - 0.125f)
+		{
+			LEDManager.SetLEDOuterRing_Int((LED_NUM_LEDS_PER_RING/4)*i, LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255);
+		}
+		if(rawAngle <= -0.25f*i + 0.125f && i <= 2)
+		{
+			LEDManager.SetLEDOuterRing_Int(-(LED_NUM_LEDS_PER_RING/4)*i, LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255);
+		}
+	}
+
 
 
 	LEDManager.SetLEDOuterRing_Int(0,
@@ -188,12 +207,12 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 	noDeadAngle =   1.0f*KnobAngleDeadZoneRemap(rawAngle);
-	if(rawAngle > 0.0f)
-		speedVariable = noDeadAngle;
+	if(noDeadAngle > 0.0f)
+		speedVariable = rawAngle*0.5f;
 	else
-		speedVariable = noDeadAngle*0.5f;
+		speedVariable = rawAngle*tempo.bps_filtered*0.125f*2.0f;
 
-	float delayCompensation = BLOCKPROCESSINGTIME_S*marksPerTable*1.0f;//1.5 for half of slew time
+	float delayCompensation = BLOCKPROCESSINGTIME_S*marksPerTable*1.0f;
     syncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + tempo.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
 
 
@@ -238,10 +257,10 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 
-    speedDelta = speedVariable + targetSpeed;//(MathExtras::Floor((speedVariable + multiple/2.0f) / multiple)) * multiple;
+    timeDelta = speedVariable + targetSpeed;
 
 
-	double delta = sampleTime*(speedDelta);
+	double delta = sampleTime*(timeDelta);
 	delta = MathExtras::ClampMin(delta, 0.0);
 
 
@@ -255,19 +274,11 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 	if(AngleInDeadZone(rawAngle))
 	{
 
-
-
-
-		float bestTimePos = curBeatFloor*(1.0/marksPerTable) + tempo.PercToNextTap()*(1.0/marksPerTable);
-
-		//timeAccumCur = bestTimePos + delayCompensation ;
-
 		float totalError = syncError ;
-		const float I = 0.001f;
 
 		errorAccum += totalError;
-		curSpeed =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);// + errorAccum*I;
-		timeAccumCur += curSpeed;
+		delta =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);
+
 
 
 		inDirectPlay = false;
@@ -276,12 +287,13 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 	else
 	{
 		errorAccum = 0.0f;
-		curSpeed = delta;
-		timeAccumCur += delta;
+
+
 		inDirectPlay = false;
 		directPlayLastAngle = 0.0f;
 	}
-
+	curSpeed = delta;
+	timeAccumCur += delta;
 
 
 	for(int i = 0; i < 3; i++)

@@ -29,6 +29,7 @@ void Mode_TurnTable::Initialize() {
 
 
 	inputOutputDescriptors[0].enabled = true;
+	inputOutputDescriptors[0].funcCombo = true;
 	inputOutputDescriptors[0].augments[0].baseColor = MathExtras::Color::RED;
 
 	inputOutputDescriptors[1].enabled = true;
@@ -275,8 +276,8 @@ inline void Mode_TurnTable::AudioDSPFunction(float sampleTime, int bufferSwap) {
 		switchedToPlayModeFlag = true;
 
 
-	double angleStart = MathExtras::WrapMax(tableTargetAngleFiltered_1,1.0);
-	double angleEnd =   MathExtras::WrapMax(tableTargetAngleFiltered,1.0);
+	double angleStart = MathExtras::WrapMax(tableTargetAngleFiltered_1  ,1.0);
+	double angleEnd =   MathExtras::WrapMax(tableTargetAngleFiltered    ,1.0);
 	double diff = MathExtras::WrappedLocalDifference<double>(angleEnd, angleStart, 1.0);
 	const float signalInputHeadroom = 0.05f;
 	int dir = MathExtras::Sign(diff);
@@ -503,7 +504,7 @@ void Mode_TurnTable::MainThreadUpdateFunction(float sampleTime)
 	//save signbuffer if needed
 	if(switchedToPlayModeFlag)
 	{
-		SaveAudioBuffer();
+		SaveAudioBuffer("Scrub");
 		switchedToPlayModeFlag = false;
 	}
 
@@ -520,7 +521,7 @@ void Mode_TurnTable::MainThreadUpdateFunction(float sampleTime)
 
 }
 
-void Mode_TurnTable::SaveAudioBuffer()
+void Mode_TurnTable::SaveAudioBuffer(char* fileNameStr)
 {
 	FRESULT res;
 	if(audioFile.obj.lockid)//if already opened.
@@ -529,7 +530,7 @@ void Mode_TurnTable::SaveAudioBuffer()
 	}
 	else
 	{
-		res = f_open(&audioFile, "TTable", FA_CREATE_ALWAYS | FA_OPEN_EXISTING | FA_WRITE | FA_READ);
+		res = f_open(&audioFile, fileNameStr, FA_CREATE_ALWAYS | FA_OPEN_EXISTING | FA_WRITE | FA_READ);
 
 
 		if(res != FR_OK)
@@ -558,6 +559,12 @@ void Mode_TurnTable::SaveAudioBuffer()
 		strcpy(errorCode, "Mode_TurnTable::signalBuffer Write Error.");
 		Error_Handler();
 	}
+
+	res = f_close(&audioFile);
+	audioFile.obj.lockid = 0;
+	if(res != FR_OK)
+		Error_Handler();
+
 }
 
 void Mode_TurnTable::OnSaveTimerTimeout()
@@ -574,7 +581,7 @@ void Mode_TurnTable::OnSaveTimerTimeout()
 
 	if((recordingPlaybackTriggerL.in > recordingPlaybackTriggerL.thresholdVal*0.5f) && (recordingPlaybackTriggerL.TriggerLevel() == 0))
 	{
-		SaveAudioBuffer();
+		SaveAudioBuffer("Scrub");
 	}
 
 }
@@ -598,6 +605,23 @@ void  Mode_TurnTable::OnFuncCombo(int button)
 	if(button == 1)
 	{
 		FlipTurnDir();
+	}
+	if(button == 0)
+	{
+		if(recordingPlaybackTriggerL.TriggerLevel() > 0)
+		{
+
+			//get
+			ee24_read_32(modeManager.CurrentModeEEPromBase()+EEPromAddressOffsets(3), &saveNumber, 1000);
+
+
+			char str[32] = "SAVED_SCRUB_";
+			itoa(saveNumber,str+12,10);
+			SaveAudioBuffer(str);
+			saveNumber++;
+			ee24_write_32(modeManager.CurrentModeEEPromBase()+EEPromAddressOffsets(3), saveNumber, 1000);
+
+		}
 	}
 }
 
@@ -707,6 +731,8 @@ bool Mode_TurnTable::WriteEEPROMState(uint32_t &ee_address)
 	s &= ee24_write_float(ee_address, tableTargetSpeed, 1000);
 	ee_address+=sizeof(float);
 
+	s &= ee24_write_32(ee_address, saveNumber, 1000);
+	ee_address+=sizeof(uint32_t);
 
 
 	return s;
@@ -730,6 +756,12 @@ bool Mode_TurnTable::ReadEEPROMState(uint32_t &ee_address)
 	tableTargetSpeed = tableTargetSpeedSaved;
 	ee_address+=sizeof(float);
 
+
+	s &= ee24_read_32(ee_address, &saveNumber, 1000);
+	if(saveNumber == 0)//uninitialized case
+		saveNumber = 1;
+
+	ee_address+=sizeof(float);
 
 	return s;
 }

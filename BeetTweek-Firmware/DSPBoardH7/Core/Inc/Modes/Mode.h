@@ -245,6 +245,9 @@ public:
 	static MotorAngleState knobAngleGestureInitial;
 	static bool gestureSaveRecInfo;
 	static uint32_t gestureRecEndIdx;
+	static bool bypassGuestureInput;
+
+
 	uint32_t lastGestLrgIdxSync = 0;
 
 	GESTUREDATA latestGDREAD;
@@ -552,7 +555,16 @@ public:
 class ModeManager : public Mode
 {
 public:
-
+	const float PanelHues[8] = {
+			61.0/360.0f,
+			131.0/360.0f,
+			182.0/360.0f,
+			246.0/360.0f,
+			300.0/360.0f,
+			0.0/360.0f,
+			61.0/360.0f,
+			131.0/360.0f
+	};
 
 //	//do setup things when the mode is entered
 
@@ -611,7 +623,7 @@ public:
 			int curPageIdx = LocalMotorAngleState.currentAngle*numPages;
 
 			//turn all panel lights colored indicating menu.
-			for(int i = 8*curPageIdx; i < 8*curPageIdx + MathExtras::Min(8, modesListEndIdx-8*curPageIdx); i++)
+			for(int i = 0; i < MathExtras::Min(8, modesListEndIdx-8*curPageIdx); i++)
 			{
 				if(modes[i]->isHidden)
 					continue;
@@ -620,9 +632,9 @@ public:
 				MathExtras::Color color;
 
 
-				color.FromHSL(float(i)/MathExtras::Min(8,  modesListEndIdx-8*curPageIdx), 1.0f, 0.5f*(MathExtras::ClampInclusive(blinky, 0.5f, 1.0f)));
+				color.FromHSL(PanelHues[i], 1.0f, 0.5f*(MathExtras::ClampInclusive(blinky, 0.5f, 1.0f)));
 
-				LEDManager.SetLEDButton(i-8*curPageIdx, color.r_*LED_BASE_BRIGHTNESS_255,
+				LEDManager.SetLEDButton(i, color.r_*LED_BASE_BRIGHTNESS_255,
 						color.g_*LED_BASE_BRIGHTNESS_255,
 						color.b_*LED_BASE_BRIGHTNESS_255);
 			}

@@ -50,6 +50,9 @@ int Mode::coggDriveLookupCCW_SMPLCNT[ANTCOGGPOINTS] = {0};
 float Mode::frictionCalFactor = 0.8f;
 float Mode::drivePowerFactor = DRIVEPOWERFACTOR_DEF;
 float Mode::driveOffset = DRIVEOFFSET_DEF;
+
+bool Mode::bypassGuestureInput = false;
+
 Mode::Mode() {
 
 	strcpy(modeName, "Standard Mode");
@@ -424,7 +427,7 @@ void Mode::PreAudioDSP(float sampleTime)
 
 
 
-	if(inputOutputDescriptors[2].curAugment == 0)
+	if(inputOutputDescriptors[2].curAugment == 0 )
 	{
 		if(GuestureStateWantedTransition(GUESTURE_LEVEL_REC_RST, GUESTURE_LEVEL_REC))
 		{
@@ -543,6 +546,10 @@ void Mode::PreAudioDSP(float sampleTime)
 			curGestureLevel = (GUESTURE_LEVEL)gestTrgtLevelTrigger.TriggerRegion();
 		}
 	}
+
+
+	if(bypassGuestureInput)
+		curGestureLevel = GUESTURE_LEVEL_PLAY_RST;;
 
 	if(gesturePlayLoopPrimed)
 	{

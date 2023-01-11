@@ -106,7 +106,7 @@ public:
 	float speedVariable = 0.0f;
 	float syncError = 0.0f;
 	float targetSpeed = 0.0f;
-	float speedDelta = 0.0f;
+	float timeDelta = 0.0f;
 	float curSpeed = 0.0f;
 	const float highSpeedRingSpeedThresh = 2.0f;
 	bool highSpeedRingIndicatorFlag = false;

@@ -41,6 +41,7 @@
 #include "ee24.h"
 #include "adcdacbuffers.h"
 #include "core_cm7.h"
+#include "BootLoaderJump.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -245,7 +246,16 @@ int main(void)
   HAL_StatusTypeDef status = HAL_I2C_Init(&hi2c1);
 
 
-
+//if button 7 is held, jump to stm32 bootloader
+  if(HAL_GPIO_ReadPin(PUSH_BUTTON_OUT_3_GPIO_Port, PUSH_BUTTON_OUT_3_Pin))
+  {
+//	  HAL_GPIO_WritePin(MULTI_BOARD_BOOT_GPIO_Port, MULTI_BOARD_BOOT_Pin, GPIO_PIN_SET);
+//	  HAL_Delay(1000);
+//
+//	  ResetBoards();
+//
+	  JumpToBootloader();
+  }
 
 
   UserCodeInit2();

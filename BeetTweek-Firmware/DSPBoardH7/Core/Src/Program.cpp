@@ -283,8 +283,6 @@ extern "C" {
 		}
 
 
-
-
 		//write serial number 0.  serial number 0 is reserved.
 		if(resetSerial)
 			ee24_write_32(EE_SERIALNUMBER_32Bit, 0, 1000);
@@ -345,8 +343,8 @@ extern "C" {
 		modeManager.Initialize();
 
 		//Page 1
-		Mode* mode1 = modeManager.AddMode(&mode_Spring1);
-		modeManager.AddMode(&mode_Clocks);
+		Mode* mode1 = modeManager.AddMode(&mode_Clocks);
+		modeManager.AddMode(&mode_Spring1);
 		modeManager.AddMode(&mode_TorqueFriction);
 		modeManager.AddMode(&mode_Rachet);
 		modeManager.AddMode(&mode_Indent1);
