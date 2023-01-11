@@ -239,7 +239,8 @@ const int ChordOffsets [ChordType_NUMCHORDS][4] = {
 };
 
 
-
+//time to hold gates open in seconds.
+const float ClockGateTime = 0.01f;
 
 
 inline int CHORD_INVERSION(int inversion, int halfStepOffset)

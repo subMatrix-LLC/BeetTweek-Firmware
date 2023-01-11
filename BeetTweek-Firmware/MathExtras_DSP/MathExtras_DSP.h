@@ -199,6 +199,124 @@ public:
 
 
 
+//Samples on edge using threshold triggers and holds for n samples
+//enable_unhold - release immediately if in signal is down and current held.
+//min_held_samples - samples must wait until release.
+//min_unheld_samples - samples must wait until hold after release.
+template <class T, bool updown, bool enable_unhold, int min_held_samples, int min_unheld_samples>
+class ClockOutGate
+{
+public:
+	Threshold_Trigger<T>* trigger = nullptr;
+
+	int sampleCount = 0;
+	int sampleCounter = 0;
+	int heldCounter = 0;
+	int unheldCounter = 0;
+
+	bool unholdFlag = false;
+	bool holdFlag = false;
+
+	T val;
+
+	inline void SetTrigger(Threshold_Trigger<T>* trigger)
+	{
+		this->trigger = trigger;
+	}
+	inline void SetSampleCount(int smples)
+	{
+		sampleCount = smples;
+	}
+	inline T Process(T in)
+	{
+		trigger->Process(in);
+
+		if(trigger->TriggeredUp())
+		{
+			if constexpr(updown)
+			{
+				holdFlag = true;
+			}
+			else
+			{
+				if constexpr(enable_unhold)
+				{
+					unholdFlag = true;
+
+				}
+			}
+		}
+		if(trigger->TriggeredDown())
+		{
+			if constexpr(!updown)
+			{
+				holdFlag = true;
+
+			}
+			else
+			{
+				if constexpr(enable_unhold)
+				{
+					unholdFlag = true;
+				}
+			}
+
+		}
+
+
+
+
+		if(unholdFlag && heldCounter == 0)
+		{
+			sampleCounter = 0;
+			unheldCounter = min_unheld_samples;
+			val = 0;
+			unholdFlag = false;
+		}
+
+		if(holdFlag  && unheldCounter == 0)
+		{
+			sampleCounter = sampleCount;
+			heldCounter = min_held_samples;
+			val = in;
+
+			holdFlag = false;
+		}
+
+
+
+		if(unheldCounter > 0)
+		{
+			unheldCounter--;
+		}
+		if(heldCounter > 0)
+		{
+			heldCounter--;
+		}
+
+
+		if(sampleCounter > 0)
+		{
+			sampleCounter--;
+			return val;
+		}
+		else
+		{
+			val = 0;
+			return 0;
+		}
+	}
+
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -626,14 +744,13 @@ public:
 				nextTNext = newTNext;
 
 
-			if(doATap)
-			{
+
 				newTNext = CycleTime_Tracker<T>::trigTime_1;
 				tNext =  newTNext;
 				nextTNext = newTNext;
 				timeaccum = 0;
 				doATap = 0;
-			}
+
 
 
 			tapped = 1;
