@@ -778,7 +778,7 @@ bool Mode_TurnTable::ReadSDFileData()
 	}
 	else
 	{
-		res = f_open(&audioFile, "TTable",  FA_OPEN_EXISTING | FA_WRITE | FA_READ);
+		res = f_open(&audioFile, "Scrub",  FA_OPEN_EXISTING | FA_WRITE | FA_READ);
 		if(res != FR_OK)
 		{
 			if(res == FR_NO_FILE)
