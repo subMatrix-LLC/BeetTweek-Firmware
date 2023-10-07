@@ -744,15 +744,15 @@ bool Mode_TurnTable::WriteEEPROMState(uint32_t &ee_address)
 bool Mode_TurnTable::ReadEEPROMState(uint32_t &ee_address)
 {
 	bool s = Mode::ReadEEPROMState(ee_address);
-	s &= ee24_read_float(ee_address, &inputOutputDescriptors[2].augments[1].defaultVoltVal, 1000);
+	s &= ee24_read_float(ee_address, &inputOutputDescriptors[2].augments[1].defaultVoltVal, 1000, 0.0f);
 	//always read back to playback because recording on startup is never good.
 	inputOutputDescriptors[2].augments[1].defaultVoltVal = recordingPlaybackTriggerL.thresholdVal + recordingPlaybackTriggerL.thresholdHalfGap*2;
 	ee_address+=sizeof(float);
 
-	s &= ee24_read_float(ee_address, &inputOutputDescriptors[1].augments[0].defaultVoltVal, 1000);
+	s &= ee24_read_float(ee_address, &inputOutputDescriptors[1].augments[0].defaultVoltVal, 1000, 0.0f);
 	ee_address+=sizeof(float);
 
-	s &= ee24_read_float(ee_address, &tableTargetSpeedSaved, 1000);
+	s &= ee24_read_float(ee_address, &tableTargetSpeedSaved, 1000, 0.0f);
 	tableTargetSpeed = tableTargetSpeedSaved;
 	ee_address+=sizeof(float);
 

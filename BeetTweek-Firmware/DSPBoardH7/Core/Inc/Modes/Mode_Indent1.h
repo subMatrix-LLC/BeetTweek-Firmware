@@ -103,7 +103,7 @@ public:
 
 		for(int i = 0; i < 8; i++)
 		{
-			success &= ee24_read_float(ee_address, (float*)&detentVolts[i], 1000);
+			success &= ee24_read_float(ee_address, (float*)&detentVolts[i], 1000, 0.0f);
 			eepromDetentVolts[i] = detentVolts[i];
 			ee_address += sizeof(float);
 		}

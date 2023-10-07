@@ -238,7 +238,7 @@ extern "C" {
 
 
 		//Clear All EEPROM except persistent (factory and user calibrations)
-		ee24_write_zeros(EE_LASTMODE, EE_END - EE_LASTMODE, 1000);
+		ee24_write_ffff(EE_LASTMODE, EE_END - EE_LASTMODE, 1000);
 
 
 		//Clear files
@@ -291,7 +291,7 @@ extern "C" {
 		ee24_write_16(EE_EEPROMCheckCode_16bit, 0xABAB, 1000);
 		ee24_write_32(EE_FIRMWARE_VERSION_32bits, firmwareVersion, 1000);
 
-
+		ee24_flush();
 	}
 
 
@@ -421,7 +421,7 @@ extern "C" {
 			LEDManager.panelReversed_ = 0;
 
 		//load friction factor
-		ee24_read_float(EE_FrictionFactor_32bits, &Mode::frictionCalFactor, 1000);
+		ee24_read_float(EE_FrictionFactor_32bits, &Mode::frictionCalFactor, 1000, 0.0f);
 		Mode::frictionCalFactor = MathExtras::ClampInclusive(Mode::frictionCalFactor, FRICTIONFACTOR_MIN, FRICTIONFACTOR_MAX);
 
 
@@ -446,18 +446,23 @@ extern "C" {
 		else
 		{
 			//load drive power factor
-			ee24_read_float(EE_DrivePowerFactor_32bits, &Mode::drivePowerFactor, 1000);
+			ee24_read_float(EE_DrivePowerFactor_32bits, &Mode::drivePowerFactor, 1000, 0.5f);
 			Mode::drivePowerFactor = MathExtras::ClampInclusive(Mode::drivePowerFactor, DRIVEPOWERFACTOR_MIN, DRIVEPOWERFACTOR_MAX);
 
 			//load drive offset
-			ee24_read_float(EE_DriveOffset_32bits, &Mode::driveOffset, 1000);
+			ee24_read_float(EE_DriveOffset_32bits, &Mode::driveOffset, 1000, 0.0f);
 			Mode::driveOffset = MathExtras::ClampInclusive(Mode::driveOffset, DRIVEOFFSET_MIN, DRIVEOFFSET_MAX);
 
 			ee24_read_32(EE_CombinedBoardMotorDirection_32bits, (uint32_t*)&combinedBoardMotorDirection, 1000);
 			combinedBoardMotorDirection = MathExtras::ClampInclusive(combinedBoardMotorDirection, -1,1);
 		}
 
+		//restore taptempo state and colors..
+		ee24_read_float(EE_TAP_TEMPO_TNEXT_32bits, &tempo.tNext,  1000, 1.0f);
+		ee24_read_float(EE_TAP_TEMPO_BPS_32bits, &tempo.bps,  1000, 1.0f);
+		ee24_read_float(EE_TAP_TEMPO_BPSFLT_32bits, &tempo.bps_filtered,  1000, 1.0f);
 
+		tempo.nextTNext = tempo.tNext;
 
 
 		uint8_t lastModeIdx;

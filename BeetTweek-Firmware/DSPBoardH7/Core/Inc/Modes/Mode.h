@@ -542,7 +542,7 @@ public:
 		else
 			ee24_write_float(EE_GESTURE_STATE_32bits, gestTrgtLevelTrigger.RegionMid(GUESTURE_LEVEL_PLAY_RST), 1000);
 
-		ee24_write_8(EE_GESTURE_STATESAVED_8bits, 1, 1000);
+		ee24_write_8(EE_GESTURE_STATESAVED_BOOL_8bits, 1, 1000);
 
 	}
 
@@ -763,8 +763,7 @@ public:
 
 		modes[foundNodeIdx]->Initialize();
 		PostTransitionDescriptorPreferenceSetup();
-		for(int i = 0; i < 4; i++)
-			OnADCPlugChange(i);
+
 
 		prevModeIdx = currentModeIdx;
 		currentModeIdx = foundNodeIdx;
@@ -844,9 +843,9 @@ public:
 
 		//read gesture record/playback state.
 		uint8_t gestureDataSaved = 0;
-		ee24_read_8(EE_GESTURE_STATESAVED_8bits, &gestureDataSaved, 1000);
-		if(gestureDataSaved)
-			ee24_read_float(EE_GESTURE_STATE_32bits, &inputOutputDescriptors[2].augments[0].defaultVoltVal, 1000);
+		ee24_read_8(EE_GESTURE_STATESAVED_BOOL_8bits, &gestureDataSaved, 1000);
+		if(gestureDataSaved == 1)
+			ee24_read_float(EE_GESTURE_STATE_32bits, &inputOutputDescriptors[2].augments[0].defaultVoltVal, 1000, 0.0f);
 
 
 
@@ -855,9 +854,7 @@ public:
 		ee24_read(EE_GESTURE_MOTORSTATE, (uint8_t*)&Mode::knobAngleGestureInitial, sizeof(MotorAngleState), 1000);
 
 
-		ee24_read_float(EE_GESTURE_TEMPO_32bits, &Mode::knobGestureRecordBPS, 1000);
-		if((Mode::knobGestureRecordBPS < 0.0001f) || (Mode::knobGestureRecordBPS > 1000.0f))
-			Mode::knobGestureRecordBPS = 1.0f;
+		ee24_read_float(EE_GESTURE_TEMPO_FLOAT_32bits, &Mode::knobGestureRecordBPS, 1000, 1.0f);
 
 
 		//read fake-plug state
@@ -872,14 +869,6 @@ public:
 		}
 
 
-
-
-
-		//restore taptempo state and colors..
-		ee24_read_float(EE_TAP_TEMPO_TNEXT_32bits, &tempo.tNext,  1000);
-		ee24_read_float(EE_TAP_TEMPO_BPS_32bits, &tempo.bps,  1000);
-		ee24_read_float(EE_TAP_TEMPO_BPSFLT_32bits, &tempo.bps_filtered,  1000);
-		tempo.nextTNext = tempo.tNext;
 
 
 

@@ -168,6 +168,16 @@ bool ee24_write(uint16_t address, uint8_t *data, size_t len, uint32_t timeout)
 #endif
 }
 
+void ee24_flush()
+{
+#ifdef  _EEPROM_ASFILE
+	FRESULT res =f_sync(&EEPROMFILE);
+	  if(res != FR_OK)
+		  Error_Handler();
+#endif
+}
+
+
 // write zeros.
 bool ee24_write_zeros(uint16_t address, size_t lenInBytes, uint32_t timeout)
 {
@@ -183,6 +193,20 @@ bool ee24_write_zeros(uint16_t address, size_t lenInBytes, uint32_t timeout)
 	return s;
 }
 
+// write FFFF
+bool ee24_write_ffff(uint16_t address, size_t lenInBytes, uint32_t timeout)
+{
+	uint8_t* max = malloc(lenInBytes);
+
+
+	for(int i = 0; i < lenInBytes; i++)
+		max[i] = 0xFF;
+
+	bool s = ee24_write(address, max, lenInBytes, timeout);
+
+	free(max);
+	return s;
+}
 
 //################################################################################################################
 bool ee24_read(uint16_t address, uint8_t *data, size_t len, uint32_t timeout)
@@ -315,7 +339,7 @@ bool ee24_read_32(uint16_t address, uint32_t* data, uint32_t timeout)
 	return s;
 }
 
-bool ee24_read_float(uint16_t address, float* data, uint32_t timeout)
+bool ee24_read_float(uint16_t address, float* data, uint32_t timeout, float defaultValue)
 {
 	uint8_t dataBuff[4];
 
@@ -326,7 +350,11 @@ bool ee24_read_float(uint16_t address, float* data, uint32_t timeout)
 			| ((dataBuff[2] << 16) & 0x00FF0000)
 			| ((dataBuff[3] << 24) & 0xFF000000);
 
+
 	*data = *(float*)(&dataAsInt);
+
+	if(isnanf(*data))
+		*data = defaultValue;
 
 	return s;
 }

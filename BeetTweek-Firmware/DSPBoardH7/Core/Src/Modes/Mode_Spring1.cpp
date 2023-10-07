@@ -497,14 +497,14 @@ bool Mode_Spring1::ReadEEPROMState(uint32_t &ee_address)
 {
 	bool success = Mode::ReadEEPROMState(ee_address);
 
-	success &= ee24_read_float(ee_address, &timeAccum, 1000);
+	success &= ee24_read_float(ee_address, &timeAccum, 1000, 0.0f);
 	ee_address += sizeof(float);
 
 
-	success &= ee24_read_float(ee_address, &timeAccum2, 1000);
+	success &= ee24_read_float(ee_address, &timeAccum2, 1000, 0.0f);
 	ee_address += sizeof(float);
 
-	success &= ee24_read_float(ee_address, &curLFO2OutputFreq, 1000);
+	success &= ee24_read_float(ee_address, &curLFO2OutputFreq, 1000, 0.0f);
 	ee_address += sizeof(float);
 
 	return success;

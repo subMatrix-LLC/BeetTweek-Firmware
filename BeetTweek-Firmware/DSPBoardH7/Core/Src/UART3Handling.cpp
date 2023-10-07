@@ -391,8 +391,8 @@ HAL_StatusTypeDef HandleSerialAPI(SerialDevice* serialDevice)
 					  for(int i = 0; i < NUM_DAC_ADC_CAL_POINTS; i++)
 					  {
 						  float adc,dac;
-						  writeSuccess &= ee24_read_float(EE_ADC0_FACTORY_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &adc, 1000);
-						  writeSuccess &= ee24_read_float(EE_DAC0_FACTORY_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &dac, 1000);
+						  writeSuccess &= ee24_read_float(EE_ADC0_FACTORY_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &adc, 1000, 0.0f);
+						  writeSuccess &= ee24_read_float(EE_DAC0_FACTORY_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &dac, 1000, 0.0f);
 
 						  ADCCalibrationPoints[chan][i] = adc;
 						  DACCalibrationPoints[chan][i] = dac;
@@ -412,8 +412,8 @@ HAL_StatusTypeDef HandleSerialAPI(SerialDevice* serialDevice)
 					  for(int i = 0; i < NUM_DAC_ADC_CAL_POINTS; i++)
 					  {
 						  float adc,dac;
-						  writeSuccess &= ee24_read_float(EE_ADC0_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &adc, 1000);
-						  writeSuccess &= ee24_read_float(EE_DAC0_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &dac, 1000);
+						  writeSuccess &= ee24_read_float(EE_ADC0_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &adc, 1000, 0.0f);
+						  writeSuccess &= ee24_read_float(EE_DAC0_CAL_32bits + chan*NUM_DAC_ADC_CAL_POINTS*4 + i*4, &dac, 1000, 0.0f);
 
 						  ADCCalibrationPoints[chan][i] = adc;
 						  DACCalibrationPoints[chan][i] = dac;

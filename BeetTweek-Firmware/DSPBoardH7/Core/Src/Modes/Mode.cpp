@@ -729,7 +729,7 @@ void Mode::OnSaveTimerTimeout(){
 
 	if(Mode::saveKnobGestureRecordBPS)
 	{
-		ee24_write_float(EE_GESTURE_TEMPO_32bits, knobGestureRecordBPS, 1000);
+		ee24_write_float(EE_GESTURE_TEMPO_FLOAT_32bits, knobGestureRecordBPS, 1000);
 		Mode::saveKnobGestureRecordBPS = false;
 	}
 
@@ -743,6 +743,8 @@ void Mode::OnSaveTimerTimeout(){
 
 		gestureSaveRecInfo = false;
 	}
+
+	ee24_flush();
 }
 
 void Mode::PrintCoggStats(int i)
@@ -1045,14 +1047,17 @@ void Mode::OnADCPlugChange(int adc)
 		}
 		else
 		{
-			//unplugged - setup the fakeplug with tempo tapping..
+			//unplugged - setup the fakeplug with tempo tapping.. from the bpm of recent plug
 			adcFakePlugStates[3] = 1;
 
-			//TODO: keep periodic last bps and restore bps from before the unplug actually occurred.
 			tempo.bps = recentTapBps_1;
 			tempo.bps_filtered = recentTapBps_1;
 			tempo.tNext = 1/recentTapBps_1;
 			tempo.nextTNext = tempo.tNext ;
+
+			RestartSaveTimer();
+			saveTapBpm = true;
+
 
 			inputOutputDescriptors[3].augments[0].useCustomColorIntensity = true;
 			inputOutputDescriptors[3].augments[0].customColorIntensity = 0.3f;

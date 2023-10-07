@@ -515,7 +515,7 @@ bool Mode_SequencedPluck::ReadNoteData(uint32_t &ee_address)
 	bool success = true;
 	for(int i = 0; i < MODE_SP_MAX_PLUCKNOTES; i++)
 	{
-		success &= ee24_read_float(ee_address, &notes[i].volts, 1000);
+		success &= ee24_read_float(ee_address, &notes[i].volts, 1000, 0.0f);
 		ee_address += sizeof(float);
 	}
 	return success;

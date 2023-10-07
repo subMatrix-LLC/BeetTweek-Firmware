@@ -41,12 +41,17 @@ bool    ee24_write_16(uint16_t address, uint16_t data, uint32_t timeout);
 bool    ee24_write_32(uint16_t address, uint32_t data, uint32_t timeout);
 bool    ee24_write_float(uint16_t address, float data, uint32_t timeout);
 bool    ee24_write_zeros(uint16_t address, size_t lenInBytes, uint32_t timeout);
+bool    ee24_write_ffff(uint16_t address, size_t lenInBytes, uint32_t timeout);
+
+
+
+void    ee24_flush();
 
 bool    ee24_read(uint16_t address, uint8_t* data, size_t lenInBytes, uint32_t timeout);
 bool    ee24_read_8(uint16_t address, uint8_t* data, uint32_t timeout);
 bool    ee24_read_16(uint16_t address, uint16_t* data, uint32_t timeout);
 bool    ee24_read_32(uint16_t address, uint32_t* data, uint32_t timeout);
-bool    ee24_read_float(uint16_t address, float* data, uint32_t timeout);
+bool    ee24_read_float(uint16_t address, float* data, uint32_t timeout, float defaultValue);
 
 bool    ee24_eraseChip(void);
 #ifdef _EEPROM_ASFILE
