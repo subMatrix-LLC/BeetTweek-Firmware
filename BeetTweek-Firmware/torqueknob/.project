@@ -36,17 +36,17 @@
 		<link>
 			<name>MathExtras_DSP</name>
 			<type>2</type>
-			<location>C:/Users/casht/Desktop/TESTFOLDER/BeetTweek-Firmware/MathExtras_DSP</location>
+			<location>E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/MathExtras_DSP</location>
 		</link>
 		<link>
 			<name>STM32Utilities</name>
 			<type>2</type>
-			<location>C:/Users/casht/Desktop/TESTFOLDER/BeetTweek-Firmware/STM32Utilities</location>
+			<location>E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/STM32Utilities</location>
 		</link>
 		<link>
 			<name>SharedSource</name>
 			<type>2</type>
-			<location>C:/Users/casht/Desktop/TESTFOLDER/BeetTweek-Firmware/SharedSource</location>
+			<location>E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource</location>
 		</link>
 	</linkedResources>
 </projectDescription>
