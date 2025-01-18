@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>BeetTweek_BootloaderH7</name>
+	<name>BootloaderH7</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -34,17 +34,17 @@
 		<link>
 			<name>MathExtras_DSP</name>
 			<type>2</type>
-			<location>E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/MathExtras_DSP</location>
+			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/MathExtras_DSP</location>
 		</link>
 		<link>
 			<name>STM32Utilities</name>
 			<type>2</type>
-			<location>E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/STM32Utilities</location>
+			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities</location>
 		</link>
 		<link>
 			<name>SharedSource</name>
 			<type>2</type>
-			<location>E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource</location>
+			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource</location>
 		</link>
 	</linkedResources>
 </projectDescription>
