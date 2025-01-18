@@ -1,0 +1,6 @@
+[submodule "STM32Utilities"]
+	path = STM32Utilities
+	url = https://github.com/TrevorCash/STM32Utilities
+[submodule "MathExtras_DSP"]
+	path = MathExtras_DSP
+	url = https://github.com/TrevorCash/MathExtras_DSP
