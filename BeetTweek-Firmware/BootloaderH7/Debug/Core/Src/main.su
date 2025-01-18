@@ -1,0 +1,8 @@
+../Core/Src/main.c:76:13:goto_application	16	static
+../Core/Src/main.c:97:5:DoFirmwareUpdateFromSDCard	992	static
+../Core/Src/main.c:281:5:main	16	static
+../Core/Src/main.c:375:6:SystemClock_Config	120	static
+../Core/Src/main.c:435:6:PeriphCommonClock_Config	200	static
+../Core/Src/main.c:471:5:__io_putchar	24	static
+../Core/Src/main.c:485:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:504:6:assert_failed	16	static

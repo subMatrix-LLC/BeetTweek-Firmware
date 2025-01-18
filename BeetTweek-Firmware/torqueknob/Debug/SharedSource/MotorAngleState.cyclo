@@ -1,0 +1,16 @@
+MotorAngleState.cpp:15:6:void MotorAngleStateInit(MotorAngleState*)	1
+MotorAngleState.cpp:27:6:void MotorAngleStateDestroy(MotorAngleState*)	1
+MotorAngleState.cpp:32:6:void MotorAngleStateReset(MotorAngleState*)	1
+MotorAngleState.cpp:45:6:void MotorAngleStateCopyTo(MotorAngleState*, MotorAngleState*)	1
+MotorAngleState.cpp:54:6:void MotorAngleStateResetAccumulation(MotorAngleState*)	1
+MotorAngleState.cpp:60:6:void MotorAngleStateUpdateLocalf(MotorAngleState*, float, float)	3
+MotorAngleState.cpp:101:6:void MotorAngleStateUpdateAccumulatedd(MotorAngleState*, double, float)	1
+MotorAngleState.cpp:123:6:void MotorAngleStateUpdateFiltering(MotorAngleState*, float)	1
+MotorAngleState.cpp:131:7:float MotorAngleStateGetCurrentAnglef(MotorAngleState*)	1
+MotorAngleState.cpp:136:7:float MotorAngleStateGetCurrentAccumulatedAnglef(MotorAngleState*)	1
+MotorAngleState.cpp:140:8:double MotorAngleStateGetCurrentAccumulatedAngled(MotorAngleState*)	1
+MotorAngleState.cpp:146:7:float MotorAngleStateGetAngleDeltaf(MotorAngleState*)	1
+MathExtras.h:82:32:T MathExtras::WrapMax(T, T) [with T = float]	3
+MathExtras.h:305:30:T MathExtras::Fract(T) [with T = double]	1
+MathExtras.h:311:32:int MathExtras::FloorToInt(T) [with T = double]	1
+MathExtras.h:66:11:T MathExtras::Mod(T, T) [with T = float; typename std::enable_if<std::is_floating_point<_Tp>::value>::type* <anonymous> = 0]	1

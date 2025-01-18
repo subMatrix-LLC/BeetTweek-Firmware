@@ -1,0 +1,6 @@
+LEDPanelManager.h:93:6:int LEDPanelManager::ClockIndexToLEDIndex(LEDPanelManager::RINGIDENTIFIER, int)	5
+LEDPanelManager.cpp:10:1:LEDPanelManager::LEDPanelManager()	2
+LEDPanelManager.cpp:21:1:LEDPanelManager::~LEDPanelManager()	1
+LEDPanelManager.cpp:21:1:virtual LEDPanelManager::~LEDPanelManager()	1
+MathExtras.h:82:32:T MathExtras::WrapMax(T, T) [with T = int]	3
+MathExtras.h:70:11:T MathExtras::Mod(T, T) [with T = int; typename std::enable_if<std::is_integral<_Tp>::value>::type* <anonymous> = 0]	1

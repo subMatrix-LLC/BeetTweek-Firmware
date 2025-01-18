@@ -1,0 +1,3 @@
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/us_delay.h:37:22:void DelayUS(uint32_t)	2
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/STM32Utilities/Src/AS5048.cpp:12:6:void AS5048DeviceInit(AS5048_Device*, SPI_HandleTypeDef*, GPIO_TypeDef*, uint16_t)	1
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/STM32Utilities/Src/AS5048.cpp:22:7:float AS5048_SPI_ReadAnglef(AS5048_Device*)	4

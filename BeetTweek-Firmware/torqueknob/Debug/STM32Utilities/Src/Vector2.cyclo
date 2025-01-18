@@ -1,0 +1,6 @@
+Vector2.h:36:5:MathExtras::IntVector2::IntVector2()	1
+Vector2.h:43:5:MathExtras::IntVector2::IntVector2(int, int)	1
+Vector2.h:177:5:MathExtras::Vector2::Vector2()	1
+Vector2.h:194:5:MathExtras::Vector2::Vector2(float, float)	1
+Vector2.cpp:48:1:void __static_initialization_and_destruction_0(int, int)	3
+Vector2.cpp:48:1:cpp)	1

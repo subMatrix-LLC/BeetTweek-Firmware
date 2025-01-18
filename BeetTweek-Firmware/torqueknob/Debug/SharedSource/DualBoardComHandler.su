@@ -1,0 +1,9 @@
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/DualBoardComHandler.h:39:8:constexpr DualBoardComHandler::PackScheme::PackScheme()	16	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:12:1:DualBoardComHandler::DualBoardComHandler()	16	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:17:1:DualBoardComHandler::~DualBoardComHandler()	16	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:17:1:virtual DualBoardComHandler::~DualBoardComHandler()	16	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:76:6:void DualBoardComHandler::Slave_GetNextOut(uint16_t*)	16	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:81:6:void DualBoardComHandler::Slave_ProcessNextIn(uint16_t)	24	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:109:6:void DualBoardComHandler::Slave_TransitionScheme()	16	static
+E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/DualBoardComHandler.cpp:125:6:void DualBoardComHandler::Slave_ProcessSchemeFrame()	16	static
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/MathExtras.h:200:11:T MathExtras::Max(T, U) [with T = int; U = int]	16	static
