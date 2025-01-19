@@ -49,6 +49,6 @@ FATFS/App \
 FATFS/Target \
 Middlewares/Third_Party/FatFs/src \
 Middlewares/Third_Party/FatFs/src/option \
-STM32Utilities/Src \
-SharedSource \
+STM32Utilities_SRC \
+SharedSource_SRC \
 

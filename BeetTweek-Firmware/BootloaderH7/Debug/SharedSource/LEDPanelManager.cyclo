@@ -1,6 +1,0 @@
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDPanelManager.h:93:6:int LEDPanelManager::ClockIndexToLEDIndex(LEDPanelManager::RINGIDENTIFIER, int)	5
-E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/LEDPanelManager.cpp:10:1:LEDPanelManager::LEDPanelManager()	2
-E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/LEDPanelManager.cpp:21:1:LEDPanelManager::~LEDPanelManager()	1
-E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/SharedSource/LEDPanelManager.cpp:21:1:virtual LEDPanelManager::~LEDPanelManager()	1
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/MathExtras.h:82:32:T MathExtras::WrapMax(T, T) [with T = int]	3
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/MathExtras.h:70:11:T MathExtras::Mod(T, T) [with T = int; typename std::enable_if<std::is_integral<_Tp>::value>::type* <anonymous> = 0]	1

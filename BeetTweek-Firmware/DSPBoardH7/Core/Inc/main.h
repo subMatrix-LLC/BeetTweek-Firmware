@@ -184,6 +184,7 @@ extern char errorCode[256];
 #define LC24C_SDA_GPIO_Port GPIOB
 #define LC24C_SCL_Pin GPIO_PIN_8
 #define LC24C_SCL_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -71,7 +71,7 @@
 /*---------- -----------*/
 #define USBD_DEBUG_LEVEL     0U
 /*---------- -----------*/
-#define USBD_LPM_ENABLED     0U
+#define USBD_LPM_ENABLED     1U
 /*---------- -----------*/
 #define USBD_SELF_POWERED     1U
 
@@ -116,7 +116,7 @@
 
 #if (USBD_DEBUG_LEVEL > 1)
 
-#define USBD_ErrLog(...)    printf("ERROR: ") ;\
+#define USBD_ErrLog(...)    printf("ERROR: ");\
                             printf(__VA_ARGS__);\
                             printf("\n");
 #else
@@ -124,7 +124,7 @@
 #endif /* (USBD_DEBUG_LEVEL > 1U) */
 
 #if (USBD_DEBUG_LEVEL > 2)
-#define USBD_DbgLog(...)    printf("DEBUG : ") ;\
+#define USBD_DbgLog(...)    printf("DEBUG : ");\
                             printf(__VA_ARGS__);\
                             printf("\n");
 #else

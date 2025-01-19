@@ -70,9 +70,9 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32H7xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/DSP/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\SharedSource&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}API&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\SharedSource&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\API&quot;"/>
 									<listOptionValue builtIn="false" value="../FATFS/Target"/>
 									<listOptionValue builtIn="false" value="../FATFS/App"/>
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FatFs/src"/>
@@ -101,13 +101,13 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32H7xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/DSP/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}API&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\SharedSource&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\API&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\SharedSource&quot;"/>
 									<listOptionValue builtIn="false" value="../FATFS/Target"/>
 									<listOptionValue builtIn="false" value="../FATFS/App"/>
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FatFs/src"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\MathExtras_DSP&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\MathExtras_DSP&quot;"/>
 									<listOptionValue builtIn="false" value="../USB_DEVICE/App"/>
 									<listOptionValue builtIn="false" value="../USB_DEVICE/Target"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Device_Library/Core/Inc"/>
@@ -220,9 +220,9 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32H7xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/DSP/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\SharedSource&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}API&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\SharedSource&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\API&quot;"/>
 									<listOptionValue builtIn="false" value="../FATFS/Target"/>
 									<listOptionValue builtIn="false" value="../FATFS/App"/>
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FatFs/src"/>
@@ -251,13 +251,13 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32H7xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/DSP/Include"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}API&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\SharedSource&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\STM32Utilities\Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\API&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\SharedSource&quot;"/>
 									<listOptionValue builtIn="false" value="../FATFS/Target"/>
 									<listOptionValue builtIn="false" value="../FATFS/App"/>
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FatFs/src"/>
-									<listOptionValue builtIn="false" value="&quot;${ROOT_DIR}BeetTweek-Firmware\MathExtras_DSP&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\casht\repos\subMatrixWorkSpace\BeetTweek-Firmware\MathExtras_DSP&quot;"/>
 									<listOptionValue builtIn="false" value="../USB_DEVICE/App"/>
 									<listOptionValue builtIn="false" value="../USB_DEVICE/Target"/>
 									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Device_Library/Core/Inc"/>

@@ -37,12 +37,27 @@
 			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/MathExtras_DSP</location>
 		</link>
 		<link>
+			<name>MathExtras_DSP_SRC</name>
+			<type>2</type>
+			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/MathExtras_DSP</location>
+		</link>
+		<link>
 			<name>STM32Utilities</name>
 			<type>2</type>
 			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities</location>
 		</link>
 		<link>
+			<name>STM32Utilities_SRC</name>
+			<type>2</type>
+			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Src</location>
+		</link>
+		<link>
 			<name>SharedSource</name>
+			<type>2</type>
+			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource</location>
+		</link>
+		<link>
+			<name>SharedSource_SRC</name>
 			<type>2</type>
 			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource</location>
 		</link>

@@ -1,0 +1,15 @@
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:28:6:ee24_isConnected	2
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:82:6:ee24_write	6
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:171:6:ee24_flush	1
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:182:6:ee24_write_zeros	2
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:197:6:ee24_write_ffff	2
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:212:6:ee24_read	3
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:272:6:ee24_write_8	1
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:278:6:ee24_write_16	1
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:286:6:ee24_write_32	1
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:295:6:ee24_write_float	1
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:306:6:ee24_read_8	2
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:316:6:ee24_read_16	2
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:328:6:ee24_read_32	1
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:342:6:ee24_read_float	2
+C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/ee24.c:371:6:ee24_eraseChip	3

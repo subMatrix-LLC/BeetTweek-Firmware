@@ -9,8 +9,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include SharedSource/subdir.mk
--include STM32Utilities/Src/subdir.mk
+-include SharedSource_SRC/subdir.mk
+-include STM32Utilities_SRC/subdir.mk
 -include Middlewares/Third_Party/FatFs/src/option/subdir.mk
 -include Middlewares/Third_Party/FatFs/src/subdir.mk
 -include FATFS/Target/subdir.mk

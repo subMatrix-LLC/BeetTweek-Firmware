@@ -1,6 +1,0 @@
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/Vector3.h:36:5:MathExtras::IntVector3::IntVector3()	1
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/Vector3.h:44:5:MathExtras::IntVector3::IntVector3(int, int, int)	1
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/Vector3.h:186:5:MathExtras::Vector3::Vector3()	1
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc/Vector3.h:221:5:MathExtras::Vector3::Vector3(float, float, float)	1
-E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/STM32Utilities/Src/Vector3.cpp:53:1:void __static_initialization_and_destruction_0(int, int)	3
-E:/Repos/BeetTweek-Firmware-Public/BeetTweek-Firmware/STM32Utilities/Src/Vector3.cpp:53:1:cpp)	1
