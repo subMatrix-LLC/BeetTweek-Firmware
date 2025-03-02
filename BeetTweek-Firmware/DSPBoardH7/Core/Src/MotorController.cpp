@@ -60,8 +60,17 @@ void MotorController::ZeroPhaseCalibration()
 {
 	calibrationMode = CalibrationMode_ZeroPhase;
 	curControlScheme = MotorController::ControlScheme_Lock;
+
+
 	//Hold Motor Still While Reseting Motor Mechanical Angle.
-	HAL_Delay(1000);
+	for(int i = 0; i < 100; i++)
+	{
+		UpdateMotorControl(0.01f);
+		HAL_Delay(10);
+	}
+
+
+
 	SetZeroPhaseAngle();
 	curControlScheme = MotorController::ControlScheme_Free;
 	HAL_Delay(200);

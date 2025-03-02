@@ -44,6 +44,7 @@
 
 #include "math.h"
 #include <cstring>
+#include <limits>
 #include "stdio.h"
 
 #include "usart.h"
@@ -206,7 +207,7 @@ extern "C" {
 
 	void DoFirstBoardBootActions(bool clrFactoryCals = true, bool clrUserCals = true, bool resetSerial = true)
 	{
-		//the eeprom is un-initialized, time to put some default things into eeprom. (State 1 Factory Reset)
+		//consider the eeprom is un-initialized, time to put some default things into eeprom. (State 1 Factory Reset)
 		printf("Executing (DoFirstBoardBootActions)\r\n");
 
 		//load default adc and dac calibrations into eeprom for user and factory
@@ -380,7 +381,7 @@ extern "C" {
 		ee24_read_32(EE_FIRMWARE_VERSION_32bits, &eepromFirmwareVersion, 1000);
 
 		printf("EEPROM Version is: %u\r\n", eepromFirmwareVersion);
-		//Similarly if the firmware just updated or button 8 is held on startup, this will force a factory reset (not clearing factory/user calibrations or serialnumber)
+		//Similarly if the firmware just updated or button 8 is held on startup, this will force a reset (not clearing factory/user calibrations or serialnumber)
 		if((eepromFirmwareVersion != firmwareVersion) || HAL_GPIO_ReadPin(PUSH_BUTTON_OUT_4_GPIO_Port, PUSH_BUTTON_OUT_4_Pin))
 		{
 			printf("Doing Firmware Update Boot Actions..\r\n");
@@ -524,10 +525,16 @@ extern "C" {
 		SetMotorEnable(&motorDevA, 2, GPIO_PIN_SET);
 		SetMotorEnable(&motorDevA, 3, GPIO_PIN_SET);
 
+		ee24_read_float(EE_MotorZeroPhaseAngle_32bits, &motorController.motorAngleZeroPhase, 1000,0.0f);
+		//do motor calibration if zero phase is unset.
+		if(motorController.motorAngleZeroPhase == 0.0f){
+			motorController.ZeroPhaseCalibration();
+			motorController.curControlScheme = MotorController::ControlScheme_TorqueTarget;
+			ee24_write_float(EE_MotorZeroPhaseAngle_32bits, motorController.motorAngleZeroPhase, 1000);
+		}
 
 
-		motorController.ZeroPhaseCalibration();
-		motorController.curControlScheme = MotorController::ControlScheme_TorqueTarget;
+
 
 #endif
 

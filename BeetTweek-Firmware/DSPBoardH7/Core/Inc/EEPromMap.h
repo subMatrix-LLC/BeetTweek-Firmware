@@ -46,7 +46,7 @@ enum EEPROMAddresses {
 	EE_DriveOffset_32bits = EE_DrivePowerFactor_32bits+4,
 	EE_NewCalibrationsPerformed_32bits = EE_DriveOffset_32bits+4,
 	EE_CombinedBoardMotorDirection_32bits = EE_NewCalibrationsPerformed_32bits + 4,
-
+	EE_MotorZeroPhaseAngle_32bits = EE_CombinedBoardMotorDirection_32bits + 4,
 
 
 	//-------End Persistant-----------------------------------------------------------
@@ -55,9 +55,7 @@ enum EEPROMAddresses {
 
 
 
-
-
-	EE_LASTMODE				 = EE_CombinedBoardMotorDirection_32bits+4,
+	EE_LASTMODE				 = EE_MotorZeroPhaseAngle_32bits+4,
 	EE_LASTVariant		     = EE_LASTMODE+1,
 	EE_ANGLECALIBRATION_16bit= EE_LASTVariant+1,
 
