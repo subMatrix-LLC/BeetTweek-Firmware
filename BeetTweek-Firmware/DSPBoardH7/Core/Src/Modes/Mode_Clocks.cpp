@@ -1,26 +1,9 @@
 /*
  * Mode_Clocks.cpp
  *
- *  Created on: Dec 29, 2022
- *      Author: casht
  */
 
 
-
-
-/*
- * Mode_Clocks.cpp
- *
- *  Created on: Aug 29, 2022
- *      Author: casht
- */
-
-/*
- * Mode_Indent1.cpp
- *
- *  Created on: Jan 9, 2021
- *      Author: casht
- */
 
 
 #include "Modes/Mode_Clocks.h"
