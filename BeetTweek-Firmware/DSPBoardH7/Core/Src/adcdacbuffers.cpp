@@ -29,7 +29,7 @@ volatile int32_t dac1DMA[DACDMABUFFERSIZE] = {0};
 
 volatile int adcPlugStates_1[4] = {0};
 volatile int adcPlugStates[4] = {0};
-volatile int adcFakePlugStates[4] = {0};
+volatile uint8_t adcFakePlugStates[4] = {0};
 volatile uint16_t adcPlugCounts[4] = {ADC_PLUG_COUNT_THRESH*2};
 
 

@@ -417,7 +417,7 @@ extern "C" {
 #endif
 
 		//read front plate flip
-		ee24_read_32(EE_FLIPPED_FRONT_PLATE, (uint32_t*)(&LEDManager.panelReversed_), 1000);
+		ee24_read_32(EE_FLIPPED_FRONT_PLATE_32bits, (uint32_t*)(&LEDManager.panelReversed_), 1000);
 		if(LEDManager.panelReversed_ != 0 && LEDManager.panelReversed_ != 1)
 			LEDManager.panelReversed_ = 0;
 
@@ -460,8 +460,11 @@ extern "C" {
 
 		//restore taptempo state and colors..
 		ee24_read_float(EE_TAP_TEMPO_TNEXT_32bits, &tempo.tNext,  1000, 1.0f);
+		if(tempo.tNext == 0.0f) tempo.tNext = 1.0f;
 		ee24_read_float(EE_TAP_TEMPO_BPS_32bits, &tempo.bps,  1000, 1.0f);
+		if(tempo.bps == 0.0f) tempo.bps = 1.0f;
 		ee24_read_float(EE_TAP_TEMPO_BPSFLT_32bits, &tempo.bps_filtered,  1000, 1.0f);
+		if(tempo.bps_filtered == 0.0f) tempo.bps_filtered = 1.0f;
 
 		tempo.nextTNext = tempo.tNext;
 

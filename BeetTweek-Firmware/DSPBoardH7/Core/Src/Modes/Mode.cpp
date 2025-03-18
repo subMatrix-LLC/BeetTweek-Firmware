@@ -738,7 +738,7 @@ void Mode::OnSaveTimerTimeout(){
 	{
 		ee24_write_32(EE_GESTURE_ENDIDX_32bits, Mode::gestureBuffer.endIdx, 1000);
 
-		ee24_write(EE_GESTURE_MOTORSTATE, (uint8_t*)&Mode::knobAngleGestureInitial, sizeof(MotorAngleState), 1000);
+		ee24_write(EE_GESTURE_MOTORSTATE_nbits, (uint8_t*)&Mode::knobAngleGestureInitial, sizeof(MotorAngleState), 1000);
 
 
 		gestureSaveRecInfo = false;
@@ -987,7 +987,7 @@ void Mode::OnButtonQuickAction(int button)
 		inputOutputDescriptors[3].augments[0].useCustomColorIntensity = true;
 		inputOutputDescriptors[3].augments[0].customColorIntensity = 0.3f;
 
-		ee24_write_32(EE_FAKE_PLUG_STATES_32bits + 3*sizeof(int), adcFakePlugStates[3], 1000);
+		ee24_write_8(EE_FAKE_PLUG_STATES_4_8bits + 3, adcFakePlugStates[3], 1000);
 
 		//restart timer and save tempo to eeprom
 		RestartSaveTimer();
@@ -1015,7 +1015,7 @@ void Mode::OnButtonClickedLongHold(int button)
 		tempo.ClearTapCount();
 		inputOutputDescriptors[3].augments[0].useCustomColorIntensity = false;
 
-		ee24_write_32(EE_FAKE_PLUG_STATES_32bits + 3*sizeof(int), adcFakePlugStates[3], 1000);
+		ee24_write_8(EE_FAKE_PLUG_STATES_4_8bits + 3, (uint8_t)adcFakePlugStates[3], 1000);
 	}
 
 

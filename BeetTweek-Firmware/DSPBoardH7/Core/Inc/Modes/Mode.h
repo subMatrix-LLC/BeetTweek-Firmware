@@ -851,7 +851,7 @@ public:
 
 
 		ee24_read_32(EE_GESTURE_ENDIDX_32bits, &gestureBuffer.endIdx, 1000);
-		ee24_read(EE_GESTURE_MOTORSTATE, (uint8_t*)&Mode::knobAngleGestureInitial, sizeof(MotorAngleState), 1000);
+		ee24_read(EE_GESTURE_MOTORSTATE_nbits, (uint8_t*)&Mode::knobAngleGestureInitial, sizeof(MotorAngleState), 1000);
 
 
 		ee24_read_float(EE_GESTURE_TEMPO_FLOAT_32bits, &Mode::knobGestureRecordBPS, 1000, 1.0f);
@@ -860,7 +860,7 @@ public:
 		//read fake-plug state
 		for(int i = 0; i < 4; i++)
 		{
-			ee24_read_32(EE_FAKE_PLUG_STATES_32bits + i*sizeof(int), (uint32_t*)&adcFakePlugStates[i],  1000);
+			ee24_read_8(EE_FAKE_PLUG_STATES_4_8bits + i, (uint8_t*)&adcFakePlugStates[i],  1000);
 
 			if(adcFakePlugStates[i] < 0 || adcFakePlugStates[i] > 1 || adcPlugStates[i])
 			{
@@ -1071,7 +1071,7 @@ public:
 				{
 					//flip the front plate.
 					LEDManager.panelReversed_ = !LEDManager.panelReversed_;
-					ee24_write_32(EE_FLIPPED_FRONT_PLATE, static_cast<uint32_t>(LEDManager.panelReversed_), 1000);
+					ee24_write_32(EE_FLIPPED_FRONT_PLATE_32bits, static_cast<uint32_t>(LEDManager.panelReversed_), 1000);
 
 					buttonClicked = true;
 				}

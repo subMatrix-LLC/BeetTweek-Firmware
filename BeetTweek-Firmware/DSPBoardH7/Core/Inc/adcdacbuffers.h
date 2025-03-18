@@ -41,7 +41,7 @@ extern volatile int32_t dac1DMA[DACDMABUFFERSIZE];
 extern volatile uint16_t adcPlugCounts[4];
 extern volatile int adcPlugStates_1[4];
 extern volatile int adcPlugStates[4];
-extern volatile int adcFakePlugStates[4];
+extern volatile uint8_t adcFakePlugStates[4];
 extern int PlugStateDACSequence[128];
 
 
