@@ -217,11 +217,11 @@ void Mode_TorqueCurve::OnPostCycleAugment(int buttonIdx, int augmentIdx)
 
 bool Mode_TorqueCurve::WriteEEPROMState(uint32_t &ee_address)
 {
-	Mode::WriteEEPROMState(ee_address);
+	return Mode::WriteEEPROMState(ee_address);
 }
 
 bool Mode_TorqueCurve::ReadEEPROMState(uint32_t &ee_address)
 {
-	Mode::ReadEEPROMState(ee_address);
+	return Mode::ReadEEPROMState(ee_address);
 }
 

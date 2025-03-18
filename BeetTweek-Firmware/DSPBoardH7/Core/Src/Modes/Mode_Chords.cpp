@@ -142,7 +142,7 @@ void Mode_Chords::UpdateLEDS(float sampleTime)
 	WS2812_SETALLLED(0,0,0);
 
 	//negate because motor angles are counter clockwise and led clock angles are clockwise.
-	float angleTotal = -MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
+	//float angleTotal = -MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
 
 
 	LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, -LocalMotorAngleState.currentAngle + 0.5f/(curNumDetents*2.0f) - 1.0f/LED_NUM_LEDS_PER_RING, -LocalMotorAngleState.currentAngle - 0.5f/(curNumDetents*2.0f) - 1.5f/LED_NUM_LEDS_PER_RING,
@@ -234,7 +234,7 @@ void Mode_Chords::AudioDSPFunction(float sampleTime, int bufferSwap)
 //		oscs[3].Process(ws[3],SAMPLETIME);
 
 
-		float mix = rootFreq*(oscs[0].x/ws[0] + oscs[1].x/ws[1] + oscs[2].x/ws[2] + oscs[3].x/ws[3]);
+		//float mix = rootFreq*(oscs[0].x/ws[0] + oscs[1].x/ws[1] + oscs[2].x/ws[2] + oscs[3].x/ws[3]);
 		if(inputOutputDescriptors[4].curAugment == 1)
 		{
 			if(sampleIdxDMA%2 == 0)

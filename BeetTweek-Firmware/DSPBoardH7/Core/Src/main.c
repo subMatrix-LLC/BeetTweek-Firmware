@@ -84,53 +84,53 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-static void FS_FileOperationsTEST(void)
-{
-  FRESULT res;                                          /* FatFs function common result code */
-  uint32_t byteswritten, bytesread;                     /* File write/read counts */
-  uint8_t wtext[] = "This is STM32 working with FatFs + uSD"; /* File write buffer */
-  uint8_t rtext[100];                                   /* File read buffer */
-
-  /* Register the file system object to the FatFs module */
-  if(f_mount(&SDFatFS, (TCHAR const*)SDPath, 0) == FR_OK)
-  {
-    /* Create and Open a new text file object with write access */
-	res = f_open(&SDFile, "STM32.TXT", FA_CREATE_ALWAYS | FA_WRITE);
-    if(res == FR_OK)
-    {
-      /* Write data to the text file */
-      res = f_write(&SDFile, wtext, sizeof(wtext), (void *)&byteswritten);
-
-      if((byteswritten > 0) && (res == FR_OK))
-      {
-        /* Close the open text file */
-        f_close(&SDFile);
-
-        /* Open the text file object with read access */
-        if(f_open(&SDFile, "STM32.TXT", FA_READ) == FR_OK)
-        {
-          /* Read data from the text file */
-          res = f_read(&SDFile, rtext, sizeof(rtext), (void *)&bytesread);
-
-          if((bytesread > 0) && (res == FR_OK))
-          {
-            /* Close the open text file */
-            f_close(&SDFile);
-
-            /* Compare read data with the expected data */
-            if((bytesread == byteswritten))
-            {
-              /* Success of the demo: no error occurrence */
-              return;
-            }
-          }
-        }
-      }
-    }
-  }
-  /* Error */
-  Error_Handler();
-}
+//static void FS_FileOperationsTEST(void)
+//{
+//  FRESULT res;                                          /* FatFs function common result code */
+//  uint32_t byteswritten, bytesread;                     /* File write/read counts */
+//  uint8_t wtext[] = "This is STM32 working with FatFs + uSD"; /* File write buffer */
+//  uint8_t rtext[100];                                   /* File read buffer */
+//
+//  /* Register the file system object to the FatFs module */
+//  if(f_mount(&SDFatFS, (TCHAR const*)SDPath, 0) == FR_OK)
+//  {
+//    /* Create and Open a new text file object with write access */
+//	res = f_open(&SDFile, "STM32.TXT", FA_CREATE_ALWAYS | FA_WRITE);
+//    if(res == FR_OK)
+//    {
+//      /* Write data to the text file */
+//      res = f_write(&SDFile, wtext, sizeof(wtext), (void *)&byteswritten);
+//
+//      if((byteswritten > 0) && (res == FR_OK))
+//      {
+//        /* Close the open text file */
+//        f_close(&SDFile);
+//
+//        /* Open the text file object with read access */
+//        if(f_open(&SDFile, "STM32.TXT", FA_READ) == FR_OK)
+//        {
+//          /* Read data from the text file */
+//          res = f_read(&SDFile, rtext, sizeof(rtext), (void *)&bytesread);
+//
+//          if((bytesread > 0) && (res == FR_OK))
+//          {
+//            /* Close the open text file */
+//            f_close(&SDFile);
+//
+//            /* Compare read data with the expected data */
+//            if((bytesread == byteswritten))
+//            {
+//              /* Success of the demo: no error occurrence */
+//              return;
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//  /* Error */
+//  Error_Handler();
+//}
 
 void ResetBoards()
 	{
@@ -182,8 +182,9 @@ void ResetBoards()
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-																																																																																																																																																																																																																																																																																																																																																																																																																																				uint32_t div0tripEnabled = SCB->CCR & SCB_CCR_DIV_0_TRP_Msk;
-  uint32_t unaligntripEnabled = SCB->CCR & SCB_CCR_UNALIGN_TRP_Msk;
+
+  //uint32_t div0tripEnabled = SCB->CCR & SCB_CCR_DIV_0_TRP_Msk;
+  //uint32_t unaligntripEnabled = SCB->CCR & SCB_CCR_UNALIGN_TRP_Msk;
 
   MPU_Config();
   /* USER CODE END 1 */
@@ -243,7 +244,7 @@ int main(void)
   MX_SAI1_Init();
 
 
-  HAL_StatusTypeDef status = HAL_I2C_Init(&hi2c1);
+  //HAL_StatusTypeDef status = HAL_I2C_Init(&hi2c1);
 
 
 //if button 7 is held, jump to stm32 bootloader
@@ -440,7 +441,7 @@ void Error_Handler(void)
 
 	//generate an assert that will stop the debugger if connected...
 	//look at the stack...
-	volatile int inf = 1/0;
+	//volatile int inf = 1/0;
 
 	int i = 0;
 	while(true)

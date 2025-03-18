@@ -78,7 +78,7 @@ uint16_t MotorAngleData_Latest = 0;
 
 MotorAngleState GlobalMotorAngleState;
 
-extern DMA_HandleTypeDef hdma_adc1;
+//extern DMA_HandleTypeDef hdma_adc1;
 extern FIL EEPROMFILE;
 //Calibration Points For Interpolated calibration for V/Octave.  each point is a volt, -9v to 9v
 float DACCalibrationPoints[4][NUM_DAC_ADC_CAL_POINTS] =
@@ -111,7 +111,7 @@ float ADCCalibrationPoints[4][NUM_DAC_ADC_CAL_POINTS] = { 0 };
 
 
 
-#define READMETEXT "Firmware Version: %d \r\n\r\n" \
+#define READMETEXT "Firmware Version: %lu \r\n\r\n" \
 "Warning: Do not delete or modify the EEPROM file as it contains factory calibrations.\r\n\r\n" \
 "To Update Firmware:  Copy the appropriate FIRMWARE.bin file from submatrixaudio.com/downloads to this SD card.  Place the SD card into the module (with the power off). Then power on the module."
 
@@ -311,7 +311,7 @@ extern "C" {
 		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, 1.0f, (MathExtras::Color*)&MathExtras::Color::BLUE, (MathExtras::Color*)&MathExtras::Color::BLUE, 1.0f);
 		WS2812_SWAP_BUFFERS();
 
-		printf("Initializing Firmware %d..\r\n", firmwareVersion);
+		printf("Initializing Firmware %lu..\r\n", firmwareVersion);
 
 		//Get SD and FatFs running.
 		if(f_mount(&SDFatFS, (TCHAR const*)SDPath, 0) != FR_OK)
@@ -380,7 +380,7 @@ extern "C" {
 		uint32_t eepromFirmwareVersion = 0;
 		ee24_read_32(EE_FIRMWARE_VERSION_32bits, &eepromFirmwareVersion, 1000);
 
-		printf("EEPROM Version is: %u\r\n", eepromFirmwareVersion);
+		printf("EEPROM Version is: %lu\r\n", eepromFirmwareVersion);
 		//Similarly if the firmware just updated or button 8 is held on startup, this will force a reset (not clearing factory/user calibrations or serialnumber)
 		if((eepromFirmwareVersion != firmwareVersion) || HAL_GPIO_ReadPin(PUSH_BUTTON_OUT_4_GPIO_Port, PUSH_BUTTON_OUT_4_Pin))
 		{
@@ -613,7 +613,7 @@ extern "C" {
 		  static int counter = 0;
 
 
-		  HAL_StatusTypeDef status =  HandleSerialAPI(&serialCOMDevice);
+		  //HAL_StatusTypeDef status =  HandleSerialAPI(&serialCOMDevice);
 
 
 		  Mode* curMode = modeManager.currentMode();
@@ -709,8 +709,8 @@ extern "C" {
 
 
 		  //read dip switches
-		  GPIO_PinState dip2 = HAL_GPIO_ReadPin(DIP_SW_2_GPIO_Port, DIP_SW_2_Pin);
-		  GPIO_PinState dip3 = HAL_GPIO_ReadPin(DIP_SW_3_GPIO_Port, DIP_SW_3_Pin);
+		  //GPIO_PinState dip2 = HAL_GPIO_ReadPin(DIP_SW_2_GPIO_Port, DIP_SW_2_Pin);
+		  //GPIO_PinState dip3 = HAL_GPIO_ReadPin(DIP_SW_3_GPIO_Port, DIP_SW_3_Pin);
 		  GPIO_PinState dip4 = HAL_GPIO_ReadPin(DIP_SW_4_GPIO_Port, DIP_SW_4_Pin);
 
 		  panelReversed = int(!(bool)dip4);

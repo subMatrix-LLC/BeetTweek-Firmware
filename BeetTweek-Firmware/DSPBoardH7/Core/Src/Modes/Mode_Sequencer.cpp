@@ -31,7 +31,7 @@ void Mode_Sequencer::UpdateLEDS(float sampleTime)
 	WS2812_SETALLLED(0,0,0);
 
 	//negate because motor angles are counter clockwise and led clock angles are clockwise.
-	float angleTotal = -MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
+	//float angleTotal = -MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
 
 
 	for(int i = 0; i < numSequences; i++)

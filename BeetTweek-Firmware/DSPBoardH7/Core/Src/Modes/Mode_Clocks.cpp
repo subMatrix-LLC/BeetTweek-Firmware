@@ -252,7 +252,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 
-	float curBeatFloor = MathExtras::Floor(timeAccumCur*marksPerTable);
+	//float curBeatFloor = MathExtras::Floor(timeAccumCur*marksPerTable);
 
 	if(AngleInDeadZone(rawAngle))
 	{

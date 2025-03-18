@@ -16,7 +16,7 @@
 void JumpToBootloader() {
 
 
-	  uint32_t i=0;
+	  //uint32_t i=0;
 	  void (*SysMemBootJump)(void);
 
 	  /* Set the address of the entry point to bootloader */

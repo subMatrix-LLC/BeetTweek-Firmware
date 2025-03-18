@@ -284,7 +284,7 @@ inline void Mode_TurnTable::AudioDSPFunction(float sampleTime, int bufferSwap) {
 	if(!dir) dir = 1;
 	if(!recordingPlaybackTriggerL.TriggerLevel())
 	{
-		float recordIntensity = MathExtras::ClampInclusive(1.0f-(recordingPlaybackTriggerL.in / recordingPlaybackTriggerL.thresholdVal), 0.0f, 1.0f);
+		//float recordIntensity = MathExtras::ClampInclusive(1.0f-(recordingPlaybackTriggerL.in / recordingPlaybackTriggerL.thresholdVal), 0.0f, 1.0f);
 		float keepIntensity =  MathExtras::ClampInclusive((recordingPlaybackTriggerL.in / (recordingPlaybackTriggerL.thresholdVal*0.5f)), 0.0f, 1.0f);
 
 
@@ -344,8 +344,8 @@ inline void Mode_TurnTable::KnobDSPFunction(float sampleTime)
 	double motorAccumAngle = MotorAngleStateGetCurrentAccumulatedAngled(&LocalMotorAngleState);
 	double angleError = tableTargetAngle - motorAccumAngle;
 
-	float positionKnobSpace = -tableTargetAngle;
-	float localPositionKnobSpace = MathExtras::WrapMax(positionKnobSpace, 1.0f/(marksPerTable));
+	//float positionKnobSpace = -tableTargetAngle;
+	//float localPositionKnobSpace = MathExtras::WrapMax(positionKnobSpace, 1.0f/(marksPerTable));
 
 
 	//adjust weighting for maintaining target angle vs backing target to where knob actually is
@@ -504,7 +504,7 @@ void Mode_TurnTable::MainThreadUpdateFunction(float sampleTime)
 	//save signbuffer if needed
 	if(switchedToPlayModeFlag)
 	{
-		SaveAudioBuffer("Scrub");
+		SaveAudioBuffer((char*)"Scrub");
 		switchedToPlayModeFlag = false;
 	}
 
@@ -581,7 +581,7 @@ void Mode_TurnTable::OnSaveTimerTimeout()
 
 	if((recordingPlaybackTriggerL.in > recordingPlaybackTriggerL.thresholdVal*0.5f) && (recordingPlaybackTriggerL.TriggerLevel() == 0))
 	{
-		SaveAudioBuffer("Scrub");
+		SaveAudioBuffer((char*)"Scrub");
 	}
 
 }
@@ -806,6 +806,6 @@ bool Mode_TurnTable::ReadSDFileData()
 
 	}
 
-
+	return false;
 
 }

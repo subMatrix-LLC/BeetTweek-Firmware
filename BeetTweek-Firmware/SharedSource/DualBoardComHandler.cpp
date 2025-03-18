@@ -58,7 +58,7 @@ void DualBoardComHandler::Master_Process(uint16_t sig1Out, uint16_t sig2Out, uin
 
 	//	HAL_SPI_TransmitReceive(&hspi3, (uint8_t*)&outs[s], (uint8_t*)ins[s], 1,1000);
 
-		HAL_StatusTypeDef status = HAL_SPI_TransmitReceive_IT(&hspi6, (uint8_t*)&outs[s], (uint8_t*)ins[s], 1);
+		/*HAL_StatusTypeDef status = */HAL_SPI_TransmitReceive_IT(&hspi6, (uint8_t*)&outs[s], (uint8_t*)ins[s], 1);
 
 
 		//HAL_GPIO_WritePin(MOTOR_SPI_SYNC_GPIO_Port, MOTOR_SPI_SYNC_Pin, GPIO_PIN_SET);

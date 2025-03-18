@@ -116,7 +116,7 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 #if defined(VIRTUALCOMUSB)
 		uint8_t ret;
 		uint8_t* dataPointer = (uint8_t*)pData;
-		PCD_HandleTypeDef *hpcd = (PCD_HandleTypeDef *)hUsbDeviceFS.pData;
+		//PCD_HandleTypeDef *hpcd = (PCD_HandleTypeDef *)hUsbDeviceFS.pData;
 		USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
 
 
@@ -143,6 +143,8 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 	}
 	else
 		return HAL_ERROR;
+
+	return HAL_ERROR;
 }
 
 

@@ -90,7 +90,7 @@ void Mode_Indent1::UpdateLEDS(float sampleTime)
 	WS2812_SETALLLED(0,0,0);
 
 	//negate because motor angles are counter clockwise and led clock angles are clockwise.
-	float angleTotal = -MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
+	//float angleTotal = -MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
 
 
 	LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, -LocalMotorAngleState.currentAngle + 0.5f/(curNumDetents*2.0f) - 1.0f/LED_NUM_LEDS_PER_RING, -LocalMotorAngleState.currentAngle - 0.5f/(curNumDetents*2.0f) - 1.5f/LED_NUM_LEDS_PER_RING,

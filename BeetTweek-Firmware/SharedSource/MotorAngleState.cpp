@@ -102,7 +102,7 @@ void MotorAngleStateUpdateAccumulatedd(MotorAngleState* state, double newAngle, 
 {
 	double currentAccumulated = MotorAngleStateGetCurrentAccumulatedAngled(state);
 	double lastAccumulated = state->lastAngle + (double)state->revolutionAccumulatorLast;
-	double delta = newAngle - currentAccumulated;
+	//double delta = newAngle - currentAccumulated;
 
 	float newLocalAngle = MathExtras::Fract(newAngle);
 	state->revolutionAccumulatorLast = state->revolutionAccumulator;

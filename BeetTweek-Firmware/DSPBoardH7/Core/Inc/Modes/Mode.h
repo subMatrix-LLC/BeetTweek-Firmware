@@ -210,7 +210,7 @@ public:
 
 
 
-	float virtualAngleOffset;
+	float virtualAngleOffset = 0.0f;
 	MotorAngleState LocalMotorAngleState;
 	MotorAngleState LocalMotorAngleStatePure;
 	MotorAngleState LocalMotorAngleStateGesture;

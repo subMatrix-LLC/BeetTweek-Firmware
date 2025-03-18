@@ -123,7 +123,7 @@ inline void Mode_Utility::AudioDSPFunction(float sampleTime, int bufferSwap)
 	}
 	else if(subMode == 4)
 	{
-		static float s = 0.0f;
+		//static float s = 0.0f;
 		const float atten = 0.2f;
 
 		BLOCK_PROCESS_ALL()

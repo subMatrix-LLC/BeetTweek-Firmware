@@ -39,7 +39,7 @@ void WS2812_INIT()
 		WS2812_DMA_BUFF2[i] = 0;
 
 
-	HAL_StatusTypeDef status = HAL_TIM_PWM_Start_DMA(&htim4, TIM_CHANNEL_1, (uint32_t*)WS2812_DMA_BUFF2,
+	/*HAL_StatusTypeDef status = */HAL_TIM_PWM_Start_DMA(&htim4, TIM_CHANNEL_1, (uint32_t*)WS2812_DMA_BUFF2,
 			WS2812_DMA_BUFF_SIZE);
 
 
@@ -55,7 +55,7 @@ void WS2812_SWAP_BUFFERS()
 {
 
 	//Could Maybe use DMA for transfer.  But its usually busy doing other things..
-	HAL_StatusTypeDef status = HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)WS2812_DMA_BUFF1, (uint32_t)WS2812_DMA_BUFF2, WS2812_DMA_BUFF_SIZE);
+	/*HAL_StatusTypeDef status = */HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)WS2812_DMA_BUFF1, (uint32_t)WS2812_DMA_BUFF2, WS2812_DMA_BUFF_SIZE);
 
 	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1,HAL_DMA_FULL_TRANSFER, 10000);
 

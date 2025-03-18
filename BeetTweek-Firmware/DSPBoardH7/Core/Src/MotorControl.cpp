@@ -13,8 +13,8 @@
 #include "stdio.h"
 #include "arm_math.h"
 
-extern TIM_HandleTypeDef htim1;
-extern SPI_HandleTypeDef hspi2;
+//extern TIM_HandleTypeDef htim1;
+//extern SPI_HandleTypeDef hspi2;
 //extern ADC_HandleTypeDef hadc1;
 
 
