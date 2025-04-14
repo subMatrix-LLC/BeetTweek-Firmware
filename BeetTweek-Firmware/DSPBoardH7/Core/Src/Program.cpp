@@ -344,14 +344,16 @@ extern "C" {
 		modeManager.Initialize();
 
 		//Page 1
-		Mode* mode1 = modeManager.AddMode(&mode_Clocks);
-		modeManager.AddMode(&mode_Spring1);
+		Mode* mode1 = modeManager.AddMode(&mode_DJ);
 		modeManager.AddMode(&mode_TorqueFriction);
-		modeManager.AddMode(&mode_Rachet);
-		modeManager.AddMode(&mode_Indent1);
-		modeManager.AddMode(&mode_DJ);
+		modeManager.AddMode(&mode_Spring1);
 		modeManager.AddMode(&mode_TorqueCurve);
+		modeManager.AddMode(&mode_Rachet);
 		modeManager.AddMode(&mode_Orbits);
+		modeManager.AddMode(&mode_Clocks);
+		modeManager.AddMode(&mode_Indent1);
+
+
 
 		//Page 2
 		modeManager.AddMode(&mode_Chords);
