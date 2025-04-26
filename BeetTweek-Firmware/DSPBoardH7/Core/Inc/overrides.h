@@ -12,15 +12,15 @@
 int _write(int32_t file, uint8_t *ptr, int32_t len)
 {
 /* Implement your write code here, this is used by puts and printf for example */
-//int i=0;
-//for(i=0 ; i<len ; i++)
-//ITM_SendChar((*ptr++));
+int i=0;
+for(i=0 ; i<len ; i++)
+ITM_SendChar((*ptr++));
 
 #if !defined(COMBINEDBOARD)
 HAL_StatusTypeDef status = HAL_UART_Transmit(&huart3, ptr, len, 1000);
 #else
 #if defined(VIRTUALCOMUSB)
-CDC_Transmit_FS(ptr, len);
+//CDC_Transmit_FS(ptr, len);
 #endif
 #endif
 
