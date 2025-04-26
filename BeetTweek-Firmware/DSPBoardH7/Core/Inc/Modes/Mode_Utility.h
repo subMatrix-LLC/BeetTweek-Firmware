@@ -61,9 +61,26 @@ public:
 	float angleVar5 = 0.0f;
 	float oscilationRangeFiltered = 0.0f;
 
+	// Deceleration measurement variables
+	float decelerationStartTime = 0.0f;
+	float decelerationStartSpeed = 0.0f;
+	bool hasStartedDeceleration = false;
+	float targetDecelerationTime = 0.2f; // Target time to reach zero velocity
+
 	MathExtras::OscillatorSystem<double> osc;
 
-
+	// Test iteration variables
+	int testIteration = 0;
+	int maxTestIterations = 10;
+	float targetSpeed = 1.5f;        // Target speed in rad/s
+	float targetPositionError = 0.1f; // Target position error in radians
+	float targetOscillationRange = 0.1f; // Target oscillation range in radians
+	float targetDriveDistance = 0.5f; // Target distance to travel in 0.5 seconds (radians)
+	
+	// Parameter adjustment factors
+	float drivePowerFactorAdjust = 0.01f;
+	float frictionCalFactorAdjust = 0.01f;
+	float driveOffsetAdjust = 0.001f;
 };
 
 

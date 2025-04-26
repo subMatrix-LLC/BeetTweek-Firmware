@@ -50,6 +50,18 @@ void Mode_Utility::Initialize() {
 	}
 
 	bypassGuestureInput = true;
+	
+	// Initialize test variables
+	testIteration = 0;
+	maxTestIterations = 10;
+	targetSpeed = 1.5f; // Target speed in rad/s
+	targetPositionError = 0.1f; // Target position error in radians
+	targetOscillationRange = 0.1f; // Target oscillation range in radians
+	
+	// Initialize parameter adjustment factors
+	drivePowerFactorAdjust = 0.01f;
+	frictionCalFactorAdjust = 0.01f;
+	driveOffsetAdjust = 0.001f;
 }
 //
 //inline void Mode_Utility::UnInitialize() {
@@ -143,199 +155,175 @@ inline void Mode_Utility::AudioDSPFunction(float sampleTime, int bufferSwap)
 }
 
 inline void Mode_Utility::KnobDSPFunction(float sampleTime) {
-
-
-	if(motorCalibrationMode == 1)
-	{
-		if(calModetransition)
+	if(motorCalibrationMode == 1) {
+		if(calModetransition) {
 			calModetransition = false;
-
-		driveTorque = 1.0f;
-
-		if(LocalMotorAngleState.currentAngularVelFiltered > 1.0f)
-		{
-			calibrationMotorDirection = 1;
-			motorCalibrationMode++;
-			calModetransition = true;
-		}
-		else if(LocalMotorAngleState.currentAngularVelFiltered < -1.0f)
-		{
-			calibrationMotorDirection = -1;
-			motorCalibrationMode++;
-			calModetransition = true;
-		}
-	}
-
-	else if(motorCalibrationMode == 2)
-	{
-		if(calModetransition)
-		{
-			calModetransition = false;
-			timer = 1.0f;
+			timer = 0.5f; // 0.5 second test
 			angleVar1 = MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
+			forwardTestVel1 = 0.0f;
+			driveTorque = 1.0f;
+			decelerationStartTime = 0.0f;
+			decelerationStartSpeed = 0.0f;
+			hasStartedDeceleration = false;
+			printf("Starting Forward Test (Iteration %d):\n", testIteration);
+			printf("Initial Angle: %f\n", angleVar1);
+			printf("Initial DrivePowerFactor: %f\n", drivePowerFactor);
 		}
 
-		//frictionCalFactor
-		//drivePowerFactor
-		//driveOffset
-
-		driveTorque = 1.0;
-		//driveOffset = 0.0f;
-		frictionCalFactor = 0.0f;
-
-
-		timer -= sampleTime;
-		if(timer <= 0.0f)
-		{
-
+		// Track maximum speed
+		if(LocalMotorAngleState.currentAngularVelFiltered > forwardTestVel1) {
 			forwardTestVel1 = LocalMotorAngleState.currentAngularVelFiltered;
-			angleVar2 =  MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState) - angleVar1;
-			//printf("Forward Phase Finished: v: %f, delta Angle: %f\n", LocalMotorAngleState.currentAngularVelFiltered, angleVar2);
-			motorCalibrationMode++;
-			calModetransition = true;
-
 		}
 
-		//calibrate to vel = 1.55f
+		// Start measuring deceleration when we stop driving
+		if(timer <= 0.25f && !hasStartedDeceleration) {
+			driveTorque = 0.0f;
+			decelerationStartTime = timer;
+			decelerationStartSpeed = LocalMotorAngleState.currentAngularVelFiltered;
+			hasStartedDeceleration = true;
+			printf("Starting deceleration phase:\n");
+			printf("Deceleration Start Speed: %f rad/s\n", decelerationStartSpeed);
+		}
 
+		timer -= sampleTime;
+		if(timer <= 0.0f) {
+			angleVar2 = MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState) - angleVar1;
+			float finalSpeed = LocalMotorAngleState.currentAngularVelFiltered;
+			float decelerationTime = 0.25f - timer; // Time from when we stopped driving
+			
+			printf("Forward Test Results (Iteration %d):\n", testIteration);
+			printf("Distance: %f radians\n", angleVar2);
+			printf("Max Speed: %f rad/s\n", forwardTestVel1);
+			printf("Final Speed: %f rad/s\n", finalSpeed);
+			printf("Deceleration Time: %f s\n", decelerationTime);
+			printf("Deceleration Rate: %f rad/s^2\n", (decelerationStartSpeed - finalSpeed) / decelerationTime);
+			
+			// Adjust drivePowerFactor based on both speed and distance errors
+			float speedError = targetSpeed - forwardTestVel1;
+			float distanceError = targetDriveDistance - angleVar2;
+			drivePowerFactor += (speedError + distanceError) * drivePowerFactorAdjust;
+			drivePowerFactor = MathExtras::ClampInclusive(drivePowerFactor, DRIVEPOWERFACTOR_MIN, DRIVEPOWERFACTOR_MAX);
+			
+			printf("New DrivePowerFactor: %f\n", drivePowerFactor);
+			
+			motorCalibrationMode = 2; // Move to backward test
+			calModetransition = true;
+		}
 	}
-	else if(motorCalibrationMode == 3)
-	{
-		if(calModetransition)
-		{
+	else if(motorCalibrationMode == 2) {
+		if(calModetransition) {
 			calModetransition = false;
 			timer = 1.0f;
 			angleVar1 = MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
+			driveTorque = -1.0f;
+			decelerationStartTime = 0.0f;
+			decelerationStartSpeed = 0.0f;
+			hasStartedDeceleration = false;
 		}
 
-		driveTorque = -1.0;
-		//driveOffset = 0.0f;
-		frictionCalFactor = 0.0f;
+		// Start measuring deceleration when we stop driving
+		if(timer <= 0.5f && !hasStartedDeceleration) {
+			driveTorque = 0.0f;
+			decelerationStartTime = timer;
+			decelerationStartSpeed = LocalMotorAngleState.currentAngularVelFiltered;
+			hasStartedDeceleration = true;
+		}
 
 		timer -= sampleTime;
-		if(timer <= 0.0f)
-		{
-
-			angleVar3 =  MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState) - angleVar1;
-
-			//printf("Backward Phase Finished: v: %f, delta Angle: %f\n", LocalMotorAngleState.currentAngularVelFiltered, angleVar2);
+		if(timer <= 0.0f) {
+			angleVar3 = MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState) - angleVar1;
+			float finalSpeed = LocalMotorAngleState.currentAngularVelFiltered;
+			float decelerationTime = 0.5f - timer;
+			
+			printf("Backward Test Results (Iteration %d):\n", testIteration);
+			printf("Distance: %f radians\n", angleVar3);
+			printf("Final Speed: %f rad/s\n", finalSpeed);
+			printf("Deceleration Time: %f s\n", decelerationTime);
+			printf("Deceleration Rate: %f rad/s^2\n", (decelerationStartSpeed - finalSpeed) / decelerationTime);
+			
+			// Calculate bias and range
 			float bias = angleVar2 + angleVar3;
 			float range = MathExtras::Abs(angleVar2) + MathExtras::Abs(angleVar3);
-			printf("bias: %f, range: %f, driveoffset: %f\n", bias, range, driveOffset);
-
-			driveOffset += bias*0.001f;
-			if(MathExtras::Abs(bias)/range < 0.001f)
-			{
-				motorCalibrationMode++;
+			
+			// Adjust driveOffset based on bias
+			driveOffset += bias * driveOffsetAdjust;
+			driveOffset = MathExtras::ClampInclusive(driveOffset, DRIVEOFFSET_MIN, DRIVEOFFSET_MAX);
+			
+			// Adjust frictionCalFactor based on range and deceleration time
+			float rangeError = targetPositionError - range;
+			float decelError = targetDecelerationTime - decelerationTime;
+			frictionCalFactor += (rangeError * frictionCalFactorAdjust + decelError * 0.1f);
+			frictionCalFactor = MathExtras::ClampInclusive(frictionCalFactor, FRICTIONFACTOR_MIN, FRICTIONFACTOR_MAX);
+			
+			printf("Current Parameters:\n");
+			printf("DrivePowerFactor: %f\n", drivePowerFactor);
+			printf("FrictionCalFactor: %f\n", frictionCalFactor);
+			printf("DriveOffset: %f\n", driveOffset);
+			
+			// Check if we've achieved target performance or max iterations
+			if((MathExtras::Abs(bias)/range < 0.001f && 
+				MathExtras::Abs(targetSpeed - forwardTestVel1) < 0.1f &&
+				MathExtras::Abs(targetDecelerationTime - decelerationTime) < 0.05f &&
+				MathExtras::Abs(targetDriveDistance - angleVar2) < 0.05f) || 
+				testIteration >= maxTestIterations) {
+				printf("Calibration Complete:\n");
+				printf("Final DrivePowerFactor: %f\n", drivePowerFactor);
+				printf("Final FrictionCalFactor: %f\n", frictionCalFactor);
+				printf("Final DriveOffset: %f\n", driveOffset);
+				motorCalibrationMode = 0;
+			} else {
+				testIteration++;
+				motorCalibrationMode = 3; // Move to oscillation test
 			}
-			else
-			{
-				motorCalibrationMode=2;
-			}
-
 			calModetransition = true;
-
 		}
 	}
-	else if(motorCalibrationMode == 4)
-	{
-		if(calModetransition)
-		{
+	else if(motorCalibrationMode == 3) {
+		// Oscillation test
+		if(calModetransition) {
 			calModetransition = false;
 			timer = 10.0f;
+			angleVar1 = MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
+			oscilationRangeFiltered = 0.0f;
 		}
-
-
-		//driveTorque += posError*10.0f;
-		driveTorque = 1.0f;
-		frictionCalFactor = 100.0f;
-
-		float velError = 1.5f - MathExtras::Abs(LocalMotorAngleState.currentAngularVelFiltered);
-		drivePowerFactor += (velError)*0.001f;
-
-
-		drivePowerFactor = MathExtras::ClampInclusive(drivePowerFactor, 0.0f, 1.0f);
-
-
-		if(LocalMotorAngleState.currentAngularVelFiltered > 1.0f)
-		{
-			calibrationMotorDirection = 1;
-		}
-		else if(LocalMotorAngleState.currentAngularVelFiltered < -1.0f)
-		{
-			calibrationMotorDirection = -1;
-		}
-
-
-		if(timer <= 0.0f)
-		{
-			motorCalibrationMode++;
-			calModetransition = true;
-		}
-
-		timer -= sampleTime;
-
-	}
-	else if(motorCalibrationMode == 5)
-	{
-
-		if(calModetransition)
-		{
-			calModetransition = false;
-			timer = 30.0f;
-			angleVar1 = 0.0f;
-			frictionCalFactor = 0.0f;
-		}
-
 
 		float posError = angleVar1 - MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState);
-		if(posError >= 0.0f && angleVar5 <= 0.0f)
-		{
+		if(posError >= 0.0f && angleVar5 <= 0.0f) {
 			angleVar2 = 0.0f;
 			oscilationRangeFiltered += (angleVar4 - oscilationRangeFiltered)*0.1f;
 		}
-		else if(posError <= 0.0f && angleVar5 >= 0.0f)
-		{
+		else if(posError <= 0.0f && angleVar5 >= 0.0f) {
 			angleVar3 = 0.0f;
 			oscilationRangeFiltered += (angleVar4 - oscilationRangeFiltered)*0.1f;
 		}
 
-		if(posError > angleVar2)
-		{
+		if(posError > angleVar2) {
 			angleVar2 = posError;
 		}
-		if(posError < angleVar3)
-		{
+		if(posError < angleVar3) {
 			angleVar3 = posError;
 		}
 		angleVar4 = angleVar2 - angleVar3;
 
 		angleVar5 = posError;
-		driveTorque += posError*10.0f;
+		driveTorque = -posError * 0.5f - LocalMotorAngleState.currentAngularVelFiltered * 0.1f;
 
-		if(MathExtras::Abs(MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState)) < 2.0f)
-		{
+		if(MathExtras::Abs(MotorAngleStateGetCurrentAccumulatedAnglef(&LocalMotorAngleState)) < 2.0f) {
 			timer -= sampleTime;
-			frictionCalFactor += (0.34f - oscilationRangeFiltered)*0.001f;
-			frictionCalFactor = MathExtras::ClampInclusive(frictionCalFactor, 0.0f, 2.0f);
+			frictionCalFactor += (targetOscillationRange - oscilationRangeFiltered) * 0.001f;
+			frictionCalFactor = MathExtras::ClampInclusive(frictionCalFactor, FRICTIONFACTOR_MIN, FRICTIONFACTOR_MAX);
 		}
-		else
-		{
+		else {
 			frictionCalFactor = 0.0f;
 		}
-		if(timer <= 0.0f)
-		{
-			motorCalibrationMode++;
+		if(timer <= 0.0f) {
+			motorCalibrationMode = 1; // Start next iteration
 			calModetransition = true;
 		}
 	}
-
-
-	else
-	{
+	else {
 		driveTorque = 0;
 	}
-
 
 	MasterProcess_Torque(sampleTime);
 }
@@ -383,7 +371,7 @@ void Mode_Utility::OnFuncCombo(int button)
 
 	if(button == 4)
 	{
-		motorCalibrationMode=2;
+		motorCalibrationMode=1;
 		calModetransition = true;
 
 
