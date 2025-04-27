@@ -31,6 +31,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+static volatile uint8_t transmissionComplete = 1;
 
 /* USER CODE END PV */
 
@@ -285,24 +286,23 @@ uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
   uint8_t result = USBD_OK;
   /* USER CODE BEGIN 7 */
   const int CDC_TRANSMIT_TIMEOUT_MS = 10000;
-    uint32_t startTick = HAL_GetTick();
+  uint32_t startTick = HAL_GetTick();
 
-	USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-	if (hcdc == NULL) {
-		return USBD_FAIL;
-	}
+  USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
+  if (hcdc == NULL) {
+    return USBD_FAIL;
+  }
 
+  // Wait for previous transmission to complete
+  while (hcdc->TxState != 0) {
+	  return USBD_BUSY;
+  }
 
-	if (hcdc->TxState != 0) {
-		return USBD_BUSY;
-	}
+  // Set the transmission buffer and length
+  USBD_CDC_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
 
-	// Set the transmission buffer and length
-	USBD_CDC_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
-
-	// Start the transmission
-	result = USBD_CDC_TransmitPacket(&hUsbDeviceFS);
-
+  // Start the transmission
+  result = USBD_CDC_TransmitPacket(&hUsbDeviceFS);
 
   /* USER CODE END 7 */
   return result;
@@ -324,6 +324,9 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
 {
   uint8_t result = USBD_OK;
   /* USER CODE BEGIN 13 */
+
+  // Mark transmission as complete
+  transmissionComplete = 1;
 
   extern HAL_StatusTypeDef HandleTxNextBits();
   //send the next bits

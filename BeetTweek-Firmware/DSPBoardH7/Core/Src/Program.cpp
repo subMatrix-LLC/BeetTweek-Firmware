@@ -58,7 +58,7 @@
 
 
 CircularQueueBuffer<uint8_t, UART3_RX_BuffSize> SerialDevice_RX_Buffer;
-CircularQueueBuffer<uint8_t, UART3_RX_BuffSize> SerialDevice_TX_Buffer;
+CircularQueueBuffer<uint8_t, UART3_TX_BuffSize> SerialDevice_TX_Buffer;
 
 
 DACX0504Chip DACChip;

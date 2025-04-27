@@ -108,7 +108,7 @@ extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 extern "C" {
 HAL_StatusTypeDef HandleTxNextBits()
 {
-	extern CircularQueueBuffer<uint8_t, UART3_RX_BuffSize> SerialDevice_TX_Buffer;
+	extern CircularQueueBuffer<uint8_t, UART3_TX_BuffSize> SerialDevice_TX_Buffer;
 	auto len = SerialDevice_TX_Buffer.HeadLeadAmount();
 	if(len > 64)
 		 len = 64;
@@ -153,14 +153,15 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 
 
 		USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-		extern CircularQueueBuffer<uint8_t, UART3_RX_BuffSize> SerialDevice_TX_Buffer;
+		extern CircularQueueBuffer<uint8_t, UART3_TX_BuffSize> SerialDevice_TX_Buffer;
 
 		for(int i = 0; i < Size; i++)
 		{
 			auto ret = SerialDevice_TX_Buffer.AddNewData(pData[i]);
-			if(ret == CircularQueueBuffer<uint8_t, UART3_RX_BuffSize>::CircularBufferCode_HeadCrossRead)
+			if(ret == CircularQueueBuffer<uint8_t, UART3_TX_BuffSize>::CircularBufferCode_HeadCrossRead)
 			{
-				Error_Handler();
+				strcpy(errorCode, "SerialDeviceTransmit: TX RAM buffer overflow.");
+				//Error_Handler();
 			}
 
 		}
