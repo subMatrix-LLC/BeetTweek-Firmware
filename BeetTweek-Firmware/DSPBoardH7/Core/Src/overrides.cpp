@@ -8,23 +8,37 @@
 #ifndef INC_OVERRIDES_H_
 #define INC_OVERRIDES_H_
 
+#include <stdint.h>
+#include "UART3Handling.h"
+
+extern "C" {
+
 
 int _write(int32_t file, uint8_t *ptr, int32_t len)
 {
 /* Implement your write code here, this is used by puts and printf for example */
-int i=0;
-for(i=0 ; i<len ; i++)
-ITM_SendChar((*ptr++));
+//int i=0;
+//for(i=0 ; i<len ; i++)
+//ITM_SendChar((*ptr++));
+
+
 
 #if !defined(COMBINEDBOARD)
-HAL_StatusTypeDef status = HAL_UART_Transmit(&huart3, ptr, len, 1000);
+//HAL_StatusTypeDef status = HAL_UART_Transmit(&huart3, ptr, len, 1000);
 #else
+
 #if defined(VIRTUALCOMUSB)
 //CDC_Transmit_FS(ptr, len);
-#endif
-#endif
+SerialDevice abstract;
+abstract.usb = true;
+abstract.huart = nullptr;
+auto status = SerialDeviceTransmit(&abstract, ptr, len, 1000);
 
+#endif
+#endif
 return len;
+
+}
 
 }
 

@@ -16,6 +16,11 @@ public:
 	Mode_Utility();
 	virtual ~Mode_Utility();
 
+	// Calibration timing constants
+	static constexpr float CALIBRATION_TEST_DURATION = 2.0f;  // Total duration of each test
+	static constexpr float CALIBRATION_DRIVE_PHASE = 1.0f;    // Duration of driving phase
+	static constexpr float CALIBRATION_COAST_PHASE = 1.0f;    // Duration of coasting phase
+
 	//do setup things when the mode is entered
 	virtual void Initialize();
 
@@ -73,9 +78,9 @@ public:
 	int testIteration = 0;
 	int maxTestIterations = 10;
 	float targetSpeed = 1.5f;        // Target speed in rad/s
-	float targetPositionError = 0.1f; // Target position error in radians
-	float targetOscillationRange = 0.1f; // Target oscillation range in radians
-	float targetDriveDistance = 0.5f; // Target distance to travel in 0.5 seconds (radians)
+	float targetPositionError = 0.1f; // Target position error
+	float targetOscillationRange = 0.1f; // Target oscillation range
+	float targetDriveDistance = 0.5f; // Target distance to travel in 0.5 seconds
 	
 	// Parameter adjustment factors
 	float drivePowerFactorAdjust = 0.01f;

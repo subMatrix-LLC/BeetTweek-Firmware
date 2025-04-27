@@ -103,6 +103,36 @@ HAL_StatusTypeDef WaitReadSerialDeviceRXByte(SerialDevice* device, uint8_t* data
 
 	return HAL_OK;
 }
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
+extern "C" {
+HAL_StatusTypeDef HandleTxNextBits()
+{
+	extern CircularQueueBuffer<uint8_t, UART3_RX_BuffSize> SerialDevice_TX_Buffer;
+	auto len = SerialDevice_TX_Buffer.HeadLeadAmount();
+	if(len > 64)
+		 len = 64;
+	auto status = CDC_Transmit_FS(&SerialDevice_TX_Buffer.buffer[SerialDevice_TX_Buffer.readIndex], len);
+	if(status == USBD_OK)
+	{
+
+
+	uint8_t dummy;
+	for(int i = 0; i < len; i++)
+		SerialDevice_TX_Buffer.ReadOne(&dummy);
+	}
+	else
+	{
+		//wait until HandleTxNextBits() is called from next interupt callback...
+	}
+
+
+	return HAL_OK;
+}
+
+}
+
+
 
 HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pData, uint16_t Size, uint32_t Timeout)
 {
@@ -117,28 +147,27 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 		uint8_t ret;
 		uint8_t* dataPointer = (uint8_t*)pData;
 		//PCD_HandleTypeDef *hpcd = (PCD_HandleTypeDef *)hUsbDeviceFS.pData;
+
+		//wait untill class data available.
+		while(hUsbDeviceFS.pClassData == nullptr){HAL_Delay(1);}
+
+
 		USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
+		extern CircularQueueBuffer<uint8_t, UART3_RX_BuffSize> SerialDevice_TX_Buffer;
 
-
-		while(Size > 128)
+		for(int i = 0; i < Size; i++)
 		{
-			while(hcdc->TxState) {HAL_Delay(1);}
-
-			ret = CDC_Transmit_FS((uint8_t*)(dataPointer), 128);
-			if(ret != USBD_OK)
+			auto ret = SerialDevice_TX_Buffer.AddNewData(pData[i]);
+			if(ret == CircularQueueBuffer<uint8_t, UART3_RX_BuffSize>::CircularBufferCode_HeadCrossRead)
+			{
 				Error_Handler();
+			}
 
-
-
-			Size -= 128;
-			dataPointer += 128;
 		}
-		while(hcdc->TxState) {HAL_Delay(1);}
-		ret = CDC_Transmit_FS((uint8_t*)(dataPointer), Size);
-		if(ret != USBD_OK)
-			Error_Handler();
 
-		while(hcdc->TxState) {HAL_Delay(1);}
+
+		auto status = HandleTxNextBits();
+
 #endif
 	}
 	else
@@ -146,6 +175,7 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 
 	return HAL_ERROR;
 }
+
 
 
 void HAL_ErrorCheck(HAL_StatusTypeDef status)

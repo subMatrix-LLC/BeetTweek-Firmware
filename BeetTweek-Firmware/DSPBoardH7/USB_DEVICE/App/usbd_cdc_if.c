@@ -284,15 +284,26 @@ uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
   uint8_t result = USBD_OK;
   /* USER CODE BEGIN 7 */
+  const int CDC_TRANSMIT_TIMEOUT_MS = 10000;
+    uint32_t startTick = HAL_GetTick();
 
-  while(hUsbDeviceFS.pClassData == 0){HAL_Delay(100);}
+	USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
+	if (hcdc == NULL) {
+		return USBD_FAIL;
+	}
 
-  USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-  while (hcdc->TxState != 0){
-	  return USBD_BUSY;
-  }
-  USBD_CDC_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
-  result = USBD_CDC_TransmitPacket(&hUsbDeviceFS);
+
+	if (hcdc->TxState != 0) {
+		return USBD_BUSY;
+	}
+
+	// Set the transmission buffer and length
+	USBD_CDC_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
+
+	// Start the transmission
+	result = USBD_CDC_TransmitPacket(&hUsbDeviceFS);
+
+
   /* USER CODE END 7 */
   return result;
 }
@@ -313,6 +324,11 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
 {
   uint8_t result = USBD_OK;
   /* USER CODE BEGIN 13 */
+
+  extern HAL_StatusTypeDef HandleTxNextBits();
+  //send the next bits
+  HandleTxNextBits();
+
   UNUSED(Buf);
   UNUSED(Len);
   UNUSED(epnum);

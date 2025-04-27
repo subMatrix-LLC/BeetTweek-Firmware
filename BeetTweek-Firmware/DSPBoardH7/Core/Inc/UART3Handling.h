@@ -16,7 +16,7 @@ public:
 	bool usb = false;
 };
 
-
+HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pData, uint16_t Size, uint32_t Timeout);
 HAL_StatusTypeDef WaitReadUART3RXByte(SerialDevice* device, uint8_t* data, int size, int timeout);
 HAL_StatusTypeDef HandleSerialAPI(SerialDevice* device);
 
