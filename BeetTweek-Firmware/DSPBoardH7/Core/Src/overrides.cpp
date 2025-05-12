@@ -33,7 +33,7 @@ int _write(int32_t file, uint8_t *ptr, int32_t len)
 
 cdcSerial.usb = true;
 cdcSerial.huart = nullptr;
-auto status = SerialDeviceTransmit(&cdcSerial, ptr, len, 10);
+auto status = SerialDeviceTransmit(&cdcSerial, ptr, len, 1000);
 
 #endif
 #endif

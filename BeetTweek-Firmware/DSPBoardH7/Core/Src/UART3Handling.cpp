@@ -146,13 +146,16 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 		uint8_t* dataPointer = (uint8_t*)pData;
 		//PCD_HandleTypeDef *hpcd = (PCD_HandleTypeDef *)hUsbDeviceFS.pData;
 
-		//if timed out once - return immediatly because connection must be not be working.
-		if(device->timedOut)
-			return HAL_ERROR;
+
 
 		//wait until class data available.
 		int timerCounter = 0;
 		while(hUsbDeviceFS.pClassData == nullptr ){
+
+			//if timed out already - return immediatly because connection must be not be working.
+			if(device->timedOut)
+				return HAL_ERROR;
+
 			HAL_Delay(1);
 			timerCounter++;
 			if(timerCounter > Timeout)
