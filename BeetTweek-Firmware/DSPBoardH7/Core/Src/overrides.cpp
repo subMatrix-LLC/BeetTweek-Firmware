@@ -13,6 +13,7 @@
 
 extern "C" {
 
+SerialDevice cdcSerial;
 
 int _write(int32_t file, uint8_t *ptr, int32_t len)
 {
@@ -29,10 +30,10 @@ int _write(int32_t file, uint8_t *ptr, int32_t len)
 
 #if defined(VIRTUALCOMUSB)
 //CDC_Transmit_FS(ptr, len);
-SerialDevice abstract;
-abstract.usb = true;
-abstract.huart = nullptr;
-auto status = SerialDeviceTransmit(&abstract, ptr, len, 1000);
+
+cdcSerial.usb = true;
+cdcSerial.huart = nullptr;
+auto status = SerialDeviceTransmit(&cdcSerial, ptr, len, 10);
 
 #endif
 #endif

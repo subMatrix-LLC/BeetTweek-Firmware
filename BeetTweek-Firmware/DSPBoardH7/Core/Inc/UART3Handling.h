@@ -14,6 +14,8 @@ class SerialDevice {
 public:
 	UART_HandleTypeDef* huart = nullptr;
 	bool usb = false;
+	bool connected = false;//runtime set if able to connect.
+	bool timedOut = false;//runtime set if timeout.
 };
 
 HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pData, uint16_t Size, uint32_t Timeout);

@@ -115,11 +115,9 @@ HAL_StatusTypeDef HandleTxNextBits()
 	auto status = CDC_Transmit_FS(&SerialDevice_TX_Buffer.buffer[SerialDevice_TX_Buffer.readIndex], len);
 	if(status == USBD_OK)
 	{
-
-
-	uint8_t dummy;
-	for(int i = 0; i < len; i++)
-		SerialDevice_TX_Buffer.ReadOne(&dummy);
+		uint8_t dummy;
+		for(int i = 0; i < len; i++)
+			SerialDevice_TX_Buffer.ReadOne(&dummy);
 	}
 	else
 	{
@@ -133,7 +131,6 @@ HAL_StatusTypeDef HandleTxNextBits()
 }
 
 
-
 HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pData, uint16_t Size, uint32_t Timeout)
 {
 	if(Size == 0)
@@ -143,13 +140,32 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 		return HAL_UART_Transmit(device->huart, pData, Size, Timeout);
 	else if(device->usb == true)
 	{
+
 #if defined(VIRTUALCOMUSB)
 		uint8_t ret;
 		uint8_t* dataPointer = (uint8_t*)pData;
 		//PCD_HandleTypeDef *hpcd = (PCD_HandleTypeDef *)hUsbDeviceFS.pData;
 
-		//wait untill class data available.
-		while(hUsbDeviceFS.pClassData == nullptr){HAL_Delay(1);}
+		//if timed out once - return immediatly because connection must be not be working.
+		if(device->timedOut)
+			return HAL_ERROR;
+
+		//wait until class data available.
+		int timerCounter = 0;
+		while(hUsbDeviceFS.pClassData == nullptr ){
+			HAL_Delay(1);
+			timerCounter++;
+			if(timerCounter > Timeout)
+			{
+				device->connected = false;
+				device->timedOut = true;
+				return HAL_ERROR;
+			}
+		}
+
+		//should be connected at this point.
+		if(device->connected == false)
+			device->connected = true;
 
 
 		USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
@@ -165,14 +181,19 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 			}
 
 		}
-
-
 		auto status = HandleTxNextBits();
-
 #endif
+
+
+		int i = 0;
+		//
+		return HAL_OK;
+
+
 	}
-	else
+	else{
 		return HAL_ERROR;
+	}
 
 	return HAL_ERROR;
 }
