@@ -615,7 +615,7 @@ extern "C" {
 		  static int counter = 0;
 
 
-		  //HAL_StatusTypeDef status =  HandleSerialAPI(&serialCOMDevice);
+		  HAL_StatusTypeDef status =  HandleSerialAPI(&serialCOMDevice);
 
 
 		  Mode* curMode = modeManager.currentMode();

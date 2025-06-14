@@ -144,7 +144,7 @@ HAL_StatusTypeDef SerialDeviceTransmit(SerialDevice* device, const uint8_t* pDat
 	else
 		return HAL_ERROR;
 
-	return HAL_ERROR;
+	return HAL_OK;
 }
 
 

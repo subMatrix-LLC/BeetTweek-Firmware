@@ -87,14 +87,14 @@ inline void Mode_Utility::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 
-	if(subMode == 0)
+	if(subMode == 0)//white
 	{
 		for(int i = 0; i < 4; i++)
 		{
 			dacOuts[i] = adc0DMA[i];
 		}
 	}
-	else if(subMode == 1)//
+	else if(subMode == 1)//cyan
 	{
 
 		BLOCK_PROCESS_ALL()
@@ -104,14 +104,14 @@ inline void Mode_Utility::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 	}
-	else if(subMode == 2)//VOLT to VOLT Pass through.
+	else if(subMode == 2)//VOLT to VOLT Pass through. purple
 	{
 		for(int i = 0; i < 4; i++)
 		{
 			SetDacVolts(i, adcVolts[i]);
 		}
 	}
-	else if(subMode == 3)//Drive DAC at 0
+	else if(subMode == 3)//Drive DAC at 0. yellow
 	{
 
 
