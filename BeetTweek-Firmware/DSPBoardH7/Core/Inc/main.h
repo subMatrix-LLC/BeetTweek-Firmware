@@ -41,7 +41,8 @@ extern "C" {
 /* USER CODE BEGIN ET */
 //#define ENABLE_SCRATCH_BUFFER
 #define _EEPROM_ASFILE
-#define UART3_RX_BuffSize 2048
+#define UART3_RX_BuffSize 512
+#define UART3_TX_BuffSize 2048
 //#define NUCLEO_TEST
 
 

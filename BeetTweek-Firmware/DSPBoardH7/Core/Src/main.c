@@ -35,13 +35,13 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "overrides.h"
 #include "Program.h"
 #include "stdio.h"
 #include "ee24.h"
 #include "adcdacbuffers.h"
 #include "core_cm7.h"
 #include "BootLoaderJump.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -71,6 +71,7 @@ const char __attribute__((section (".versionIdentifier"))) BoardVersionIdentifie
 
 volatile int fullyStartedUp = 0;
 volatile int panelReversed = 0;
+
 
 /* USER CODE END PV */
 
