@@ -425,7 +425,10 @@ extern "C" {
 			LEDManager.panelReversed_ = 0;
 
 		//load friction factor
-		ee24_read_float(EE_FrictionFactor_32bits, &Mode::frictionCalFactor, 1000, 0.0f);
+		Mode::frictionCalFactor = FRICTIONFACTOR_DEF;
+		ee24_read_float(EE_FrictionFactor_32bits, &Mode::frictionCalFactor, 1000, FRICTIONFACTOR_DEF);
+		if(Mode::frictionCalFactor == 0.0f)
+			Mode::frictionCalFactor = FRICTIONFACTOR_DEF;//friction val of 0.0f is always not actually good.
 		Mode::frictionCalFactor = MathExtras::ClampInclusive(Mode::frictionCalFactor, FRICTIONFACTOR_MIN, FRICTIONFACTOR_MAX);
 
 
@@ -450,11 +453,11 @@ extern "C" {
 		else
 		{
 			//load drive power factor
-			ee24_read_float(EE_DrivePowerFactor_32bits, &Mode::drivePowerFactor, 1000, 0.5f);
+			ee24_read_float(EE_DrivePowerFactor_32bits, &Mode::drivePowerFactor, 1000, DRIVEPOWERFACTOR_DEF);
 			Mode::drivePowerFactor = MathExtras::ClampInclusive(Mode::drivePowerFactor, DRIVEPOWERFACTOR_MIN, DRIVEPOWERFACTOR_MAX);
 
 			//load drive offset
-			ee24_read_float(EE_DriveOffset_32bits, &Mode::driveOffset, 1000, 0.0f);
+			ee24_read_float(EE_DriveOffset_32bits, &Mode::driveOffset, 1000, DRIVEOFFSET_DEF);
 			Mode::driveOffset = MathExtras::ClampInclusive(Mode::driveOffset, DRIVEOFFSET_MIN, DRIVEOFFSET_MAX);
 
 			ee24_read_32(EE_CombinedBoardMotorDirection_32bits, (uint32_t*)&combinedBoardMotorDirection, 1000);
