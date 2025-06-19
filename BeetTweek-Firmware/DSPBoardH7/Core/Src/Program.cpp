@@ -242,6 +242,8 @@ extern "C" {
 		//Clear All EEPROM except persistent (factory and user calibrations)
 		ee24_write_ffff(EE_LASTMODE, EE_END - EE_LASTMODE, 1000);
 
+		//reset motor zero phase angle (missing on versions < 17)
+		ee24_write_float(EE_MotorZeroPhaseAngle_32bits, 0.0f, 1000);
 
 		//Clear files
 		FRESULT res = f_unlink("GESTUREF");
@@ -377,7 +379,7 @@ extern "C" {
 		if(serialNumber == 0xFFFFFFFF || eepromcheckcode != 0xABAB)
 		{
 			printf("Doing New Board First Boot Actions..\r\n");
-			DoFirstBoardBootActions(true,true);
+			DoFirstBoardBootActions(true,true,true);
 		}
 
 		uint32_t eepromFirmwareVersion = 0;
@@ -385,6 +387,7 @@ extern "C" {
 
 		printf("EEPROM Version is: %lu\r\n", eepromFirmwareVersion);
 		//Similarly if the firmware just updated or button 8 is held on startup, this will force a reset (not clearing factory/user calibrations or serialnumber)
+		//Clears mode memory region.
 		if((eepromFirmwareVersion != firmwareVersion) || HAL_GPIO_ReadPin(PUSH_BUTTON_OUT_4_GPIO_Port, PUSH_BUTTON_OUT_4_Pin))
 		{
 			printf("Doing Firmware Update Boot Actions..\r\n");

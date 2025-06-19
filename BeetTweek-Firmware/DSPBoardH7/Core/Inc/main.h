@@ -61,9 +61,10 @@ extern volatile int panelReversed;
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 #define COMBINEDBOARD
+#define VIRTUALCOMUSB
 
 #if defined(COMBINEDBOARD)
-#define VIRTUALCOMUSB
+
 #endif
 /* USER CODE END EM */
 
