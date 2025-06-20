@@ -774,7 +774,7 @@ bool Mode_TurnTable::ReadSDFileData()
 	FRESULT res;
 	if(audioFile.obj.lockid)//if already opened.
 	{
-		Error_Handler();
+		//Error_Handler();
 	}
 	else
 	{
