@@ -45,6 +45,7 @@ extern "C" {
 #define UART3_TX_BuffSize 2048
 //#define NUCLEO_TEST
 
+
 static const uint32_t firmwareVersion = 18;
 extern volatile int fullyStartedUp;
 extern volatile int panelReversed;
