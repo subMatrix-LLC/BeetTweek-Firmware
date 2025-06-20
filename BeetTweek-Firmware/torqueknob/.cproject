@@ -64,9 +64,9 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/DSP/Include"/>
-									<listOptionValue builtIn="false" value="C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/API"/>
-									<listOptionValue builtIn="false" value="&quot;C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource&quot;"/>
+									<listOptionValue builtIn="false" value="/home/almov/repos/subMatrixWorkSpace/API"/>
+									<listOptionValue builtIn="false" value="&quot;/home/almov/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/almov/repos/subMatrixWorkSpace/BeetTweek-Firmware/SharedSource&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.445571401" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -80,10 +80,10 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/DSP/Include"/>
-									<listOptionValue builtIn="false" value="&quot;C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/API&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/MathExtras_DSP&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/almov/repos/subMatrixWorkSpace/API&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/almov/repos/subMatrixWorkSpace/BeetTweek-Firmware/SharedSource&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/almov/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/almov/repos/subMatrixWorkSpace/BeetTweek-Firmware/MathExtras_DSP&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.definedsymbols.1378392132" name="Define symbols (-D)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.definedsymbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F405xx"/>
