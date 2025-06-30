@@ -5,7 +5,7 @@
  *      Author: casht
  */
 
-#include <DualBoardComHandler.h>
+#include "DualBoardComHandler.h"
 #include "MathExtras.h"
 #include "spi.h"
 
