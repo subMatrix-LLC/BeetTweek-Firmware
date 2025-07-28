@@ -33,14 +33,29 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>API</name>
+			<type>2</type>
+			<location>/home/almov/repos/subMatrixWorkSpace/BeetTweek-Firmware/API</location>
+		</link>
+		<link>
+			<name>MathExtras_DSP</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/MathExtras_DSP</locationURI>
+		</link>
+		<link>
+			<name>STM32Utilities_INC</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/STM32Utilities/Inc</locationURI>
+		</link>
+		<link>
 			<name>STM32Utilities_SRC</name>
 			<type>2</type>
-			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/STM32Utilities/Src</location>
+			<locationURI>PARENT-2-PROJECT_LOC/STM32Utilities/Src</locationURI>
 		</link>
 		<link>
 			<name>SharedSource</name>
 			<type>2</type>
-			<location>C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource</location>
+			<locationURI>PARENT-1-PROJECT_LOC/SharedSource</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
