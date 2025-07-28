@@ -1,6 +1,0 @@
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDHandling.cpp:21:6:void WS2812_INIT()	24	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDHandling.cpp:48:6:void WS2812_DEINIT()	8	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDHandling.cpp:54:6:void WS2812_SWAP_BUFFERS()	16	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDHandling.cpp:114:6:void WS2812_SETLED(uint8_t, uint8_t, uint8_t, uint8_t)	32	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDHandling.cpp:149:6:void WS2812_GETLED(uint8_t, uint8_t*, uint8_t*, uint8_t*)	32	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/SharedSource/LEDHandling.cpp:158:6:void WS2812_SETALLLED(uint8_t, uint8_t, uint8_t)	24	static

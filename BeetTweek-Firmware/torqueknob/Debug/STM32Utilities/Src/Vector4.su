@@ -1,4 +1,0 @@
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Inc/Vector4.h:35:5:MathExtras::Vector4::Vector4()	16	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Inc/Vector4.h:56:5:MathExtras::Vector4::Vector4(float, float, float, float)	32	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/Vector4.cpp:36:1:void __static_initialization_and_destruction_0(int, int)	16	static
-C:/Users/casht/repos/subMatrixWorkSpace/BeetTweek-Firmware/BeetTweek-Firmware/STM32Utilities/Src/Vector4.cpp:36:1:cpp)	8	static

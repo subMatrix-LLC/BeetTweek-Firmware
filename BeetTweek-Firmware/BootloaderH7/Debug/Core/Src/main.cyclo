@@ -1,8 +1,0 @@
-../Core/Src/main.c:76:13:goto_application	1
-../Core/Src/main.c:97:5:DoFirmwareUpdateFromSDCard	24
-../Core/Src/main.c:281:5:main	3
-../Core/Src/main.c:375:6:SystemClock_Config	4
-../Core/Src/main.c:435:6:PeriphCommonClock_Config	2
-../Core/Src/main.c:471:5:__io_putchar	1
-../Core/Src/main.c:485:6:Error_Handler	1
-../Core/Src/main.c:504:6:assert_failed	1
