@@ -53,7 +53,9 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-//#define BOARD_VERIFICATION
+
+
+//#define BOARD_VERIFICATION_MODE
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -331,26 +333,22 @@ int main(void)
   MX_SPI5_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
-#ifdef BOARD_VERIFICATION
-  BoardVerificationInit();
-  while(1)
-  {
+#ifdef BOARD_VERIFICATION_MODE
+	//do board verification routine. (blink light 1 second intervals and turn on motor pins for oscope.) manufacturing.
+	BoardVerificationInit();
+	while(1)
+	{
 	  BoardVerificationLoopUpdate();
-  }
+	}
 #endif
-
 
 
   printf("Starting Bootloader..\r\n");
 
   InitProgress();
 
-  BoardVerificationInit();
-
-
 	int sdResult = DoFirmwareUpdateFromSDCard();
-	if(!sdResult)
+	if(sdResult == 0)
 	{
 	  printf("No SD Firmware Update.\r\n");
 	  for(int i = 0; i < 100; i++)
@@ -368,7 +366,6 @@ int main(void)
 
 	  DeInitProgess();
 
-  BoardVerificationLoopUpdate();
 
   goto_application();
   /* USER CODE END 2 */

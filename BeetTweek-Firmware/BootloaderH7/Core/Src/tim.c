@@ -321,7 +321,10 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     HAL_GPIO_Init(DRV8313_IN3_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN TIM3_MspPostInit 1 */
-
+    //start the pwm's
+    HAL_TIM_PWM_Start(timHandle, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(timHandle, TIM_CHANNEL_2);
+    HAL_TIM_PWM_Start(timHandle, TIM_CHANNEL_4);
   /* USER CODE END TIM3_MspPostInit 1 */
   }
   else if(timHandle->Instance==TIM4)
