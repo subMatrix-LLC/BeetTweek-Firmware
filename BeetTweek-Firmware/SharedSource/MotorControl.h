@@ -39,45 +39,45 @@ typedef struct MotorDevice
 
 	GPIO_TypeDef* resetGPIOPort;    uint16_t resetGPIOPin;
 	GPIO_TypeDef* sleepGPIOPort;    uint16_t sleepGPIOPin;
-	float resetHoldTimeMS;	        								//how long to hold the reset line in order to fully reset the device.
+	float resetHoldTimeMS;	        							//how long to hold the reset line in order to fully reset the device.
 
 	GPIO_TypeDef* faultGPIOPort;    uint16_t faultGPIOPin;
 
 
-	int direction;													//spin direction (for wire flips) (-1,1)
+	int direction;											//spin direction (for wire flips) (-1,1)
 
-	MotorAngleState angleState;										//Angle Tracking
-	MotorErrorState chipState;										//Error State
+	MotorAngleState angleState;							//Angle Tracking
+	MotorErrorState chipState;							//Error State
 
 
-	int numPoles;													//how many poles the stator has
-	float energyBaseLimit;											//max percentage (PWM DUTY) to give the motor that corresponds to max drive.
+	int numPoles;											//how many poles the stator has
+	float energyBaseLimit;									//max percentage (PWM DUTY) to give the motor that corresponds to max drive.
 } MotorDevice;
 
 
 
 
 void MotorDeviceInit(MotorDevice* device,
-				    GPIO_TypeDef* enable1GPIOPort, uint16_t enable1GPIOPin,
-					GPIO_TypeDef* enable2GPIOPort,  uint16_t enable2GPIOPin,
-					GPIO_TypeDef* enable3GPIOPort,  uint16_t enable3GPIOPin,
+			    GPIO_TypeDef* enable1GPIOPort, uint16_t enable1GPIOPin,
+				GPIO_TypeDef* enable2GPIOPort,  uint16_t enable2GPIOPin,
+				GPIO_TypeDef* enable3GPIOPort,  uint16_t enable3GPIOPin,
 
-					GPIO_TypeDef* control1GPIOPort, uint16_t control1GPIOPin,
-					GPIO_TypeDef* control2GPIOPort, uint16_t control2GPIOPin,
-					GPIO_TypeDef* control3GPIOPort, uint16_t control3GPIOPin,
+				GPIO_TypeDef* control1GPIOPort, uint16_t control1GPIOPin,
+				GPIO_TypeDef* control2GPIOPort, uint16_t control2GPIOPin,
+				GPIO_TypeDef* control3GPIOPort, uint16_t control3GPIOPin,
 
-					TIM_HandleTypeDef* controlTimer,
-					unsigned int timerChannelA,
-					unsigned int timerChannelB,
-					unsigned int timerChannelC,
+				TIM_HandleTypeDef* controlTimer,
+				unsigned int timerChannelA,
+				unsigned int timerChannelB,
+				unsigned int timerChannelC,
 
-					GPIO_TypeDef* resetGPIOPort,   uint16_t resetGPIOPin,
-					GPIO_TypeDef* sleepGPIOPort,   uint16_t sleepGPIOPin,
-					float resetHoldTimeMS,
+				GPIO_TypeDef* resetGPIOPort,   uint16_t resetGPIOPin,
+				GPIO_TypeDef* sleepGPIOPort,   uint16_t sleepGPIOPin,
+				float resetHoldTimeMS,
 
-					GPIO_TypeDef* faultGPIOPort,    uint16_t faultGPIOPin,
-					int direction,
-					int numPoles, float energyBaseLimit
+				GPIO_TypeDef* faultGPIOPort,    uint16_t faultGPIOPin,
+				int direction,
+				int numPoles, float energyBaseLimit
 );
 
 
@@ -108,7 +108,6 @@ void DriveMotor(MotorDevice* device, float driveStrength, int numPoles, float ph
 
 
 void DriveMotorNoFeedback(MotorDevice* device, float driveStrength, float time);
-
 
 
 
@@ -150,6 +149,4 @@ void InvParkTransform(float rotorFluxAngle_Rad, float d, float q, float* alpha, 
 
 
 
-
-
-#endif
+#endif 

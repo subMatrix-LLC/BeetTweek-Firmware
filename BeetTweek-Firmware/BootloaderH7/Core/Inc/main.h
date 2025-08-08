@@ -58,14 +58,28 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define AS5048_CS_Pin GPIO_PIN_6
+#define AS5048_CS_GPIO_Port GPIOF
+#define AS5048_SCK_Pin GPIO_PIN_7
+#define AS5048_SCK_GPIO_Port GPIOF
+#define AS5048_MISO_Pin GPIO_PIN_8
+#define AS5048_MISO_GPIO_Port GPIOF
+#define AS5048_MOSI_Pin GPIO_PIN_9
+#define AS5048_MOSI_GPIO_Port GPIOF
 #define SWITCH_LEVEL_DAC_Pin GPIO_PIN_4
 #define SWITCH_LEVEL_DAC_GPIO_Port GPIOA
+#define DRV8313_IN1_Pin GPIO_PIN_6
+#define DRV8313_IN1_GPIO_Port GPIOA
+#define DRV8313_IN2_Pin GPIO_PIN_7
+#define DRV8313_IN2_GPIO_Port GPIOA
 #define DRV8313_EN1_Pin GPIO_PIN_4
 #define DRV8313_EN1_GPIO_Port GPIOC
 #define DRV8313_EN2_Pin GPIO_PIN_5
 #define DRV8313_EN2_GPIO_Port GPIOC
 #define LED_Pin GPIO_PIN_0
 #define LED_GPIO_Port GPIOB
+#define DRV8313_IN3_Pin GPIO_PIN_1
+#define DRV8313_IN3_GPIO_Port GPIOB
 #define DRV8313_EN3_Pin GPIO_PIN_2
 #define DRV8313_EN3_GPIO_Port GPIOB
 #define DRV8313_A_nRESET_Pin GPIO_PIN_11
@@ -126,6 +140,7 @@ void Error_Handler(void);
 #define LC24C_SDA_GPIO_Port GPIOB
 #define LC24C_SCL_Pin GPIO_PIN_8
 #define LC24C_SCL_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

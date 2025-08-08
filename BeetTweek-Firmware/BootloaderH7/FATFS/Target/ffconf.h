@@ -175,7 +175,7 @@
 /  arbitrary physical drive and partition listed in the VolToPart[]. Also f_fdisk()
 /  function will be available. */
 #define _MIN_SS    512  /* 512, 1024, 2048 or 4096 */
-#define _MAX_SS    512  /* 512, 1024, 2048 or 4096 */
+#define _MAX_SS    4096  /* 512, 1024, 2048 or 4096 */
 /* These options configure the range of sector size to be supported. (512, 1024,
 /  2048 or 4096) Always set both 512 for most systems, all type of memory cards and
 /  harddisk. But a larger value may be required for on-board flash memory and some
@@ -218,7 +218,7 @@
 #define _NORTC_MON	6
 #define _NORTC_MDAY	4
 #define _NORTC_YEAR	2015
-/* The option _FS_NORTC switches timestamp functiton. If the system does not have
+/* The option _FS_NORTC switches timestamp function. If the system does not have
 /  any RTC function or valid timestamp is not needed, set _FS_NORTC = 1 to disable
 /  the timestamp function. All objects modified by FatFs will have a fixed timestamp
 /  defined by _NORTC_MON, _NORTC_MDAY and _NORTC_YEAR in local time.

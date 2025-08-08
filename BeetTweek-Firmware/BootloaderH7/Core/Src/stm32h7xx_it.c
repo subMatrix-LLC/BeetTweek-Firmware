@@ -55,7 +55,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern MDMA_HandleTypeDef hmdma_mdma_channel40_sdmmc1_end_data_0;
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+extern MDMA_HandleTypeDef hmdma_mdma_channel0_sdmmc1_end_data_0;
 extern DMA_HandleTypeDef hdma_sai1_a;
 extern DMA_HandleTypeDef hdma_sai1_b;
 extern DMA_HandleTypeDef hdma_sai2_a;
@@ -337,6 +338,48 @@ void SAI2_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles USB On The Go FS End Point 1 Out global interrupt.
+  */
+void OTG_FS_EP1_OUT_IRQHandler(void)
+{
+  /* USER CODE BEGIN OTG_FS_EP1_OUT_IRQn 0 */
+
+  /* USER CODE END OTG_FS_EP1_OUT_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
+  /* USER CODE BEGIN OTG_FS_EP1_OUT_IRQn 1 */
+
+  /* USER CODE END OTG_FS_EP1_OUT_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USB On The Go FS End Point 1 In global interrupt.
+  */
+void OTG_FS_EP1_IN_IRQHandler(void)
+{
+  /* USER CODE BEGIN OTG_FS_EP1_IN_IRQn 0 */
+
+  /* USER CODE END OTG_FS_EP1_IN_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
+  /* USER CODE BEGIN OTG_FS_EP1_IN_IRQn 1 */
+
+  /* USER CODE END OTG_FS_EP1_IN_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USB On The Go FS global interrupt.
+  */
+void OTG_FS_IRQHandler(void)
+{
+  /* USER CODE BEGIN OTG_FS_IRQn 0 */
+
+  /* USER CODE END OTG_FS_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
+  /* USER CODE BEGIN OTG_FS_IRQn 1 */
+
+  /* USER CODE END OTG_FS_IRQn 1 */
+}
+
+/**
   * @brief This function handles MDMA global interrupt.
   */
 void MDMA_IRQHandler(void)
@@ -344,7 +387,7 @@ void MDMA_IRQHandler(void)
   /* USER CODE BEGIN MDMA_IRQn 0 */
 
   /* USER CODE END MDMA_IRQn 0 */
-  HAL_MDMA_IRQHandler(&hmdma_mdma_channel40_sdmmc1_end_data_0);
+  HAL_MDMA_IRQHandler(&hmdma_mdma_channel0_sdmmc1_end_data_0);
   /* USER CODE BEGIN MDMA_IRQn 1 */
 
   /* USER CODE END MDMA_IRQn 1 */
@@ -353,4 +396,3 @@ void MDMA_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-

@@ -53,13 +53,13 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, AS5048_CS_Pin|DRV8313_A_nRESET_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, DRV8313_EN1_Pin|DRV8313_EN2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_Pin|DRV8313_EN3_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DRV8313_A_nRESET_GPIO_Port, DRV8313_A_nRESET_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(PCM3168_RST_GPIO_Port, PCM3168_RST_Pin, GPIO_PIN_SET);
@@ -83,40 +83,40 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : AS5048_CS_Pin DRV8313_A_nRESET_Pin */
+  GPIO_InitStruct.Pin = AS5048_CS_Pin|DRV8313_A_nRESET_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
   /*Configure GPIO pins : PH0 PH1 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA1 PA10 PA15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_10|GPIO_PIN_15;
+  /*Configure GPIO pins : PA1 PA9 PA10 PA15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PCPin PCPin */
+  /*Configure GPIO pins : DRV8313_EN1_Pin DRV8313_EN2_Pin */
   GPIO_InitStruct.Pin = DRV8313_EN1_Pin|DRV8313_EN2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PBPin PBPin */
+  /*Configure GPIO pins : LED_Pin DRV8313_EN3_Pin */
   GPIO_InitStruct.Pin = LED_Pin|DRV8313_EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = DRV8313_A_nRESET_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DRV8313_A_nRESET_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PFPin PFPin PFPin */
+  /*Configure GPIO pins : DRV8313_A_nFAULT_Pin PUSH_BUTTON_FUNC_Pin PUSH_BUTTON_FUNC2_Pin */
   GPIO_InitStruct.Pin = DRV8313_A_nFAULT_Pin|PUSH_BUTTON_FUNC_Pin|PUSH_BUTTON_FUNC2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -132,8 +132,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PEPin PEPin PEPin PEPin
-                           PEPin PEPin PEPin PEPin */
+  /*Configure GPIO pins : PUSH_BUTTON_IN_1_Pin PUSH_BUTTON_IN_2_Pin PUSH_BUTTON_IN_3_Pin PUSH_BUTTON_IN_4_Pin
+                           PUSH_BUTTON_OUT_1_Pin PUSH_BUTTON_OUT_2_Pin PUSH_BUTTON_OUT_3_Pin PUSH_BUTTON_OUT_4_Pin */
   GPIO_InitStruct.Pin = PUSH_BUTTON_IN_1_Pin|PUSH_BUTTON_IN_2_Pin|PUSH_BUTTON_IN_3_Pin|PUSH_BUTTON_IN_4_Pin
                           |PUSH_BUTTON_OUT_1_Pin|PUSH_BUTTON_OUT_2_Pin|PUSH_BUTTON_OUT_3_Pin|PUSH_BUTTON_OUT_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -154,14 +154,14 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PtPin */
+  /*Configure GPIO pin : PCM3168_RST_Pin */
   GPIO_InitStruct.Pin = PCM3168_RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(PCM3168_RST_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin */
+  /*Configure GPIO pins : PCM3168_OVF_Pin DIP_SW_3_Pin */
   GPIO_InitStruct.Pin = PCM3168_OVF_Pin|DIP_SW_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -175,26 +175,26 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin PDPin */
+  /*Configure GPIO pins : DIP_SW_2_Pin DIP_SW_4_Pin SD_SENSE_Pin */
   GPIO_InitStruct.Pin = DIP_SW_2_Pin|DIP_SW_4_Pin|SD_SENSE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PGPin PGPin */
+  /*Configure GPIO pins : MOTOR_T_NRST_Pin SELF_T_NRST_Pin */
   GPIO_InitStruct.Pin = MOTOR_T_NRST_Pin|SELF_T_NRST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PtPin */
+  /*Configure GPIO pin : MULTI_BOARD_BOOT_Pin */
   GPIO_InitStruct.Pin = MULTI_BOARD_BOOT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(MULTI_BOARD_BOOT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PtPin */
+  /*Configure GPIO pin : CROSS_BOARD_GPIO_Pin */
   GPIO_InitStruct.Pin = CROSS_BOARD_GPIO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;

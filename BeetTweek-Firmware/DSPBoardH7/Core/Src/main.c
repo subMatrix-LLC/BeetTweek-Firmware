@@ -55,7 +55,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define BOARD_VALIDATION_MODE
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -182,6 +182,7 @@ void ResetBoards()
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   //uint32_t div0tripEnabled = SCB->CCR & SCB_CCR_DIV_0_TRP_Msk;
@@ -202,7 +203,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-/* Configure the peripherals common clocks */
+  /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
@@ -247,15 +248,6 @@ int main(void)
 
   //HAL_StatusTypeDef status = HAL_I2C_Init(&hi2c1);
 
-
-#if defined(BOARD_VALIDATION_MODE) && defined(COMBINEDBOARD)
-
-  BoardVerificationInit();
-  while(true)
-  {
-	  BoardVerificationLoopUpdate();
-  }
-#endif
 
 
 //if button 7 is held, jump to stm32 bootloader
@@ -308,11 +300,6 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-
-  __HAL_RCC_SYSCFG_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
@@ -478,8 +465,7 @@ void Error_Handler(void)
 	}
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

@@ -15,9 +15,5 @@ void ProgramMainLoopUpdate();
 void FixCalibrations();
 void ErrorLoop();
 
-void BoardVerificationLoopUpdate();
-void BoardVerificationInit();
-
-
 
 #endif /* INC_PROGRAM_H_ */

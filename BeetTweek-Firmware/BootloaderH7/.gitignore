@@ -3,6 +3,7 @@
 *.launch
 
 # Build outputs
+Main/
 Debug/
 Release/
 SpeedOptimized/
