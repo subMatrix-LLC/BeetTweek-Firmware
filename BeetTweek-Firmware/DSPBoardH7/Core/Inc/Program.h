@@ -15,6 +15,8 @@ void ProgramMainLoopUpdate();
 void FixCalibrations();
 void ErrorLoop();
 
+void BoardVerificationLoopUpdate();
+void BoardVerificationInit();
 
 
 
