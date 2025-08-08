@@ -55,7 +55,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define BOARD_VALIDATION_MODE
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -246,6 +246,16 @@ int main(void)
 
 
   //HAL_StatusTypeDef status = HAL_I2C_Init(&hi2c1);
+
+
+#if defined(BOARD_VALIDATION_MODE) && defined(COMBINEDBOARD)
+
+  BoardVerificationInit();
+  while(true)
+  {
+	  BoardVerificationLoopUpdate();
+  }
+#endif
 
 
 //if button 7 is held, jump to stm32 bootloader
