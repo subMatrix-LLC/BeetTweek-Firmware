@@ -295,7 +295,7 @@ inline void Mode_TurnTable::AudioDSPFunction(float sampleTime, int bufferSwap) {
 				wrapPerc = MathExtras::WrapOnceMaxOne<double>(tmp);
 				wrapPerc = MathExtras::WrapOnceMaxOne<double>(wrapPerc);//sometimes needed to resolve 1 to 0
 
-				float smp;
+				float smp = 0.0f;
 				if(ADCPluggedIn(0))
 				{
 					smp = signalInputHeadroom*(adc0DMA[adc0Idx] << 8)/float(INT32_MAX-1);
