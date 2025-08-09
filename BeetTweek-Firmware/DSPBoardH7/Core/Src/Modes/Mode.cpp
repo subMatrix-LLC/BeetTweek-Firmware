@@ -659,7 +659,7 @@ void Mode::MainThreadUpdateFunction(float sampleTime)
 			inputOutputDescriptors[2].augments[0].baseColor = MathExtras::Color::WHITE;
 		}
 		else if(justLoopedInd >= 0){
-			inputOutputDescriptors[2].augments[0].baseColor = MathExtras::Color::WHITE;
+			inputOutputDescriptors[2].augments[0].baseColor = MathExtras::Color::BLUE;
 			justLoopedInd--;
 		}
 		else
