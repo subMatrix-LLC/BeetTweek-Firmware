@@ -563,6 +563,7 @@ extern "C" {
 
 		//NOTE: at this time point the motor board should be waiting to receive SPI!  So we can start the Knob Processing Timer Below.
 		MotorAngleStateInit(&GlobalMotorAngleState);
+		MotorAngleStateInit(&Mode::knobAngleGestureInitial);
 
 
 		//Start the processing timer.

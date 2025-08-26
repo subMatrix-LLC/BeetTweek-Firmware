@@ -15,6 +15,8 @@
 void MotorAngleStateInit(MotorAngleState* state)
 {
 	state->currentAngle = 0.0f;
+	state->lastAngle = 0.0f;
+
 	state->revolutionAccumulator = 0;
 	state->revolutionAccumulatorLast = 0;
 

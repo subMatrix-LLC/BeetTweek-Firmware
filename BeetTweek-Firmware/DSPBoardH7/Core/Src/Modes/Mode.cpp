@@ -59,6 +59,8 @@ Mode::Mode() {
 	strcpy(modeDescription,"Some Description");
 
 	MotorAngleStateInit(&LocalMotorAngleState);
+
+
 }
 
 Mode::~Mode() {
@@ -71,6 +73,7 @@ Mode::~Mode() {
 void Mode::Initialize()
 {
 	firstLEDFrame = true;
+
 
 
 
