@@ -133,9 +133,6 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 		{
 			LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::GREEN,  (MathExtras::Color*)&MathExtras::Color::GREEN, 0.5f);
 			inputOutputDescriptors[7].augments[0].baseColor = MathExtras::Color::GREEN;
-
-
-
 		}
 		else if(AngleInDeadZone(rawAngle))
 		{
