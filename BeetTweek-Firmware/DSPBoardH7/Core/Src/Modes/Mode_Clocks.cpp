@@ -129,12 +129,19 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 	}
 	else
 	{
-		if(rawAngle > 0.0f)
+		if(noDeadAngle > 0.0f)
+		{
+			LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::GREEN,  (MathExtras::Color*)&MathExtras::Color::GREEN, 0.5f);
+			inputOutputDescriptors[7].augments[0].baseColor = MathExtras::Color::GREEN;
+
+
+
+		}
+		else if(AngleInDeadZone(rawAngle))
 		{
 			LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::BLUE,  (MathExtras::Color*)&MathExtras::Color::BLUE, 0.5f);
+
 			inputOutputDescriptors[7].augments[0].baseColor = MathExtras::Color::BLUE;
-
-
 
 		}
 		else
@@ -142,7 +149,6 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 			LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_INNER, 0.0f, noDeadAngle, (MathExtras::Color*)&MathExtras::Color::ORANGE,  (MathExtras::Color*)&MathExtras::Color::ORANGE, 0.5f);
 
 			inputOutputDescriptors[7].augments[0].baseColor = MathExtras::Color::ORANGE;
-
 
 		}
 	}
@@ -355,6 +361,39 @@ void Mode_Clocks::KnobDSPFunction(float sampleTime)
 }
 
 
+bool Mode_Clocks::WriteEEPROMState(uint32_t &ee_address)
+{
+	bool success = Mode::WriteEEPROMState(ee_address);
+
+	success &= ee24_write_float(ee_address, targetSpeed, 1000);
+	ee_address += sizeof(float);
+
+
+	return success;
+}
+
+
+bool Mode_Clocks::ReadEEPROMState(uint32_t &ee_address)
+{
+	bool success = Mode::ReadEEPROMState(ee_address);
+
+	success &= ee24_read_float(ee_address, &targetSpeed, 1000, 0.0f);
+	ee_address += sizeof(float);
+
+	return success;
+}
+
+void Mode_Clocks::OnSaveTimerTimeout()
+{
+	Mode::OnSaveTimerTimeout();
+
+
+
+	ee24_write_float(modeManager.CurrentModeEEPromBase()+EEPromAddressOffsets(0), targetSpeed, 1000);
+
+
+
+}
 
 void Mode_Clocks::MainThreadUpdateFunction(float sampleTime)
 {
@@ -370,6 +409,12 @@ void Mode_Clocks::MainThreadUpdateFunction(float sampleTime)
 
 
 	//printf("%f, %f, %f\n", syncError, tempo.PercToNextTap(),  MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0));
+
+
+	//make save timer run routinely.
+	if(!saveTimerEn)
+		RestartSaveTimer();
+
 }
 
 

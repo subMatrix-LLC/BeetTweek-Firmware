@@ -54,28 +54,6 @@ public:
 		case 0:
 			byteOffset = 0;
 			break;
-		case 1:
-			byteOffset = sizeof(float);
-			break;
-		case 2:
-			byteOffset = 2*sizeof(float);
-			break;
-		case 3:
-			byteOffset = 3*sizeof(float);
-			break;
-		case 4:
-			byteOffset = 4*sizeof(float);
-			break;
-		case 5:
-			byteOffset = 5*sizeof(float);
-			break;
-		case 6:
-			byteOffset = 6*sizeof(float);
-			break;
-		case 7:
-			byteOffset = 7*sizeof(float);
-			break;
-
 		}
 
 		int res = Mode::EEPromBytesUsed() + byteOffset;
@@ -83,20 +61,10 @@ public:
 	}
 
 
-	bool WriteEEPROMState(uint32_t &ee_address)
-	{
-		bool success = Mode::WriteEEPROMState(ee_address);
+	bool WriteEEPROMState(uint32_t &ee_address) override;
+	bool ReadEEPROMState(uint32_t &ee_address) override;
+	void OnSaveTimerTimeout() override;
 
-		return success;
-	}
-
-
-	bool ReadEEPROMState(uint32_t &ee_address)
-	{
-		bool success = Mode::ReadEEPROMState(ee_address);
-
-		return success;
-	}
 
 	int marksPerTable = 8;
 	float angFactor = 0.0f;
