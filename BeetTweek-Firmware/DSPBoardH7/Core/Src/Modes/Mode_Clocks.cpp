@@ -338,13 +338,7 @@ void Mode_Clocks::KnobDSPFunction(float sampleTime)
 
 
 
-	float feedBack = 0.0f;//1.0f - tempo.PercToNextTap();
-
-	if(driveTorque < 0.0)
-	{
-		feedBack = 1.0f-tempo.PercToNextTap();
-	}
-
+	float feedBack = 0.0f;
 	feedBack += float(outputTimeGates[0].val);
 
 	feedBack = MathExtras::ClampMax(feedBack, 1.0f);
