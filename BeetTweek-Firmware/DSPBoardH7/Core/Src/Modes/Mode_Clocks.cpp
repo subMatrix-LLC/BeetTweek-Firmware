@@ -190,10 +190,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 	noDeadAngle =   1.0f*KnobAngleDeadZoneRemap(rawAngle);
-	if(noDeadAngle > 0.0f)
-		speedVariable = rawAngle*0.5f;
-	else
-		speedVariable = rawAngle*tempo.bps_filtered*0.125f*2.0f;
+
 
 	float delayCompensation = BLOCKPROCESSINGTIME_S*marksPerTable*1.0f;
     syncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + tempo.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
@@ -224,57 +221,73 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 
-
-
-
+    float speedAlteration = 0.0f;
 
     if(ADCPluggedIn(3))
     {
+    	//linked to tempo
     	targetSpeed = tempoSpeed;
+    	speedAlteration = noDeadAngle;
     }
     else
     {
-    	syncError = 0.0f;
-        targetSpeed = 0.0;
+    	//freehand
+		syncError = 0.0f;
+		targetSpeed += 0.0001f*noDeadAngle;
+		targetSpeed = MathExtras::ClampMin<float>(targetSpeed, 0.0);
     }
 
+    float a = 0.0f;
+    if(AngleInDeadZone(rawAngle))
+    {
+    	a = sampleTime*(syncError)*100000.0f;//strong snap back to sync.
+    }
 
-
-    timeDelta = speedVariable + targetSpeed;
+    timeDelta = targetSpeed + speedAlteration + a;
 
 
 	double delta = sampleTime*(timeDelta);
 	delta = MathExtras::ClampMin(delta, 0.0);
 
 
+	//if angle <= left hand quater - reset clock.
+	if(noDeadAngle < -0.25)
+	{
+		timeAccumCur = 0.0f;
+	}
 
 
 
-
+//    if(ADCPluggedIn(3))
+//    {
+//		float totalError = syncError ;
+//		errorAccum += totalError;
+//		delta =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);
+//    }
 
 	//float curBeatFloor = MathExtras::Floor(timeAccumCur*marksPerTable);
 
-	if(AngleInDeadZone(rawAngle))
-	{
-
-		float totalError = syncError ;
-
-		errorAccum += totalError;
-		delta =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);
-
-
-
-		inDirectPlay = false;
-		directPlayLastAngle = 0.0f;
-	}
-	else
-	{
-		errorAccum = 0.0f;
-
-
-		inDirectPlay = false;
-		directPlayLastAngle = 0.0f;
-	}
+//	if(AngleInDeadZone(rawAngle))
+//	{
+//
+//		float totalError = syncError ;
+//
+//		errorAccum += totalError;
+//		delta =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);
+//
+//
+//
+//		inDirectPlay = false;
+//		directPlayLastAngle = 0.0f;
+//	}
+//	else
+//	{
+//		errorAccum = 0.0f;
+//
+//
+//		inDirectPlay = false;
+//		directPlayLastAngle = 0.0f;
+//	}
 	curSpeed = delta;
 	timeAccumCur += delta;
 
