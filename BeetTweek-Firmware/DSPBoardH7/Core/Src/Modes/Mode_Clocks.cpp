@@ -36,6 +36,9 @@ void Mode_Clocks::Initialize() {
 		outputTimeGates[i].SetSampleCount(SAMPLERATE*EuroRack::ClockGateTime);
 	}
 
+	clockBTracker.trigger.SetThreshold(0.5f);
+	clockBTracker.trigger.SetThresholdHalfGap(0.001f);
+
 	for(int i = 0; i < 3; i++)
 	{
 		inputOutputDescriptors[4+i].enabled = true;
@@ -62,8 +65,12 @@ void Mode_Clocks::Initialize() {
 	inputOutputDescriptors[0].augments[0].signalType = EuroRack::SignalType_CV;
 	inputOutputDescriptors[0].augments[0].baseColor = MathExtras::Color::BLUE;
 
-
-
+	//CLOCK B INPUT
+	inputOutputDescriptors[1].enabled = true;
+	inputOutputDescriptors[1].augments[0].gateTrigger = &clockBTracker.trigger;
+	inputOutputDescriptors[1].augments[0].signalType = EuroRack::SignalType_GATE;
+	inputOutputDescriptors[1].augments[0].baseColor = MathExtras::Color::YELLOW;
+	//inputOutputDescriptors[1].augments[0].useCustomColorIntensity = true;
 
 }
 
@@ -90,6 +97,7 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 
 	//basic led scheme
 	float angleLEDRing = MathExtras::WrapMax(timeAccumCur, 1.0);
+	float angleLEDRingB = MathExtras::WrapMax(timeAccumCurB, 1.0);
 
 
 
@@ -111,12 +119,29 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 		else
 		{
 			LEDManager.SetLEDOuterRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255/2, 0);
-
-
-
 		}
 		i++;
 	}
+    if(ADCPluggedIn(1)){
+		//Rotating Grid For Clock B
+		i = 0;
+		for(int tick = angleLEDRingB*LED_NUM_LEDS_PER_RING; tick <=  angleLEDRingB*LED_NUM_LEDS_PER_RING + LED_NUM_LEDS_PER_RING; tick += inc)
+		{
+			if(i == 0)
+			{
+				LEDManager.SetLEDInnerRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255/2, 0);
+				if((tick+1)%LED_NUM_LEDS_PER_RING == 0)
+				{
+
+				}
+			}
+			else
+			{
+				LEDManager.SetLEDInnerRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255/2, 0);
+			}
+			i++;
+		}
+    }
 
 
 
@@ -189,9 +214,6 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 	rawAngle += MathExtras::ClampInclusive((2.0f*adcVolts[0])/EuroRack::SignalVoltRange(inputOutputDescriptors[0].CurAugment().signalType), -1.0f, 1.0f);
 
-
-
-
 	noDeadAngle =   1.0f*KnobAngleDeadZoneRemap(rawAngle);
 
 
@@ -201,6 +223,9 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
     SetDacVolts(3, noDeadAngle*EuroRack::SignalVoltRange(inputOutputDescriptors[7].CurAugment().signalType));
 
+    if(ADCPluggedIn(1)){
+    	clockBTracker.Process(adcVolts[1], sampleTime);
+    }
 
 	if(curSpeed*SAMPLERATE < highSpeedRingSpeedThresh)
 	{
@@ -247,57 +272,35 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     }
 
     timeDelta = targetSpeed + speedAlteration + a;
-
+    timeDeltaB = clockBTracker.bps_filtered*(1.0/marksPerTable);
 
 	double delta = sampleTime*(timeDelta);
 	delta = MathExtras::ClampMin(delta, 0.0);
 
 
-	//if angle <= left hand quater - reset clock.
-	if(noDeadAngle < -0.25)
+	//if angle <= left hand quarter - reset clock.(if tap tempo/external)
+	if(noDeadAngle < -0.25 && ADCPluggedIn(3))
 	{
 		timeAccumCur = 0.0f;
 	}
 
 
+	double deltaB = sampleTime*(timeDeltaB);
+	deltaB = MathExtras::ClampMin(deltaB, 0.0);
 
-//    if(ADCPluggedIn(3))
-//    {
-//		float totalError = syncError ;
-//		errorAccum += totalError;
-//		delta =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);
-//    }
 
-	//float curBeatFloor = MathExtras::Floor(timeAccumCur*marksPerTable);
-
-//	if(AngleInDeadZone(rawAngle))
-//	{
-//
-//		float totalError = syncError ;
-//
-//		errorAccum += totalError;
-//		delta =  MathExtras::ClampMin(sampleTime*tempoSpeed + sampleTime*(totalError)*100.0f, 0.0f);
-//
-//
-//
-//		inDirectPlay = false;
-//		directPlayLastAngle = 0.0f;
-//	}
-//	else
-//	{
-//		errorAccum = 0.0f;
-//
-//
-//		inDirectPlay = false;
-//		directPlayLastAngle = 0.0f;
-//	}
 	curSpeed = delta;
 	timeAccumCur += delta;
+
+	timeAccumCurB += deltaB;
 
 
 	for(int i = 0; i < 3; i++)
 	{
+
 		float ang = MathExtras::WrapMax<double>(timeAccumCur*marksPerTable*(i+1), 1.0);
+
+
 		float pulseLevel;
 		if(ang < 0.5f)
 			pulseLevel = outputTimeGates[i].Process(1.0f);
@@ -321,6 +324,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 	timeAccumCur = MathExtras::WrapOnceMax(timeAccumCur, 1.0);
+	timeAccumCurB = MathExtras::WrapOnceMax(timeAccumCurB, 1.0);
 }
 
 
