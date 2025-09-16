@@ -175,6 +175,18 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 		}
 	}
 
+    if(ADCPluggedIn(1)){
+		//clock vs clockB error indicator
+		float clkclkspeedErrorRing = (timeDelta - timeDeltaB)*20.0f;
+		clkclkspeedErrorRing = MathExtras::ClampInclusive(clkclkspeedErrorRing, -0.5f, 0.5f);
+		float clkclkPhaseErrorRing = (timeAccumCur - timeAccumCurB)*20.0f;
+		clkclkPhaseErrorRing = MathExtras::WrapMinMax(clkclkPhaseErrorRing, -0.25f, 0.25f);
+
+		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, clkclkspeedErrorRing, (MathExtras::Color*)&MathExtras::Color::RED,  (MathExtras::Color*)&MathExtras::Color::RED, 0.5f);
+		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, clkclkPhaseErrorRing, (MathExtras::Color*)&MathExtras::Color::GREEN,  (MathExtras::Color*)&MathExtras::Color::GREEN, 0.5f);
+    }
+
+
 	//quarter markers
 	for(int i = 1; i <= 3; i++)
 	{
@@ -196,6 +208,10 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 			LED_BASE_BRIGHTNESS_255);
 
 
+
+
+
+    if(!ADCPluggedIn(1)){
 	if(highSpeedRingIndicatorFlag)
 	{
 		LEDManager.SetLEDInnerRing_Float(MathExtras::WrapMax(timeAccumCur*marksPerTable, 1.0),
@@ -203,6 +219,7 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 				LED_BASE_BRIGHTNESS_255/2,
 				0);
 	}
+    }
 
 	StandardPanelLEDDraw();
 }
@@ -219,6 +236,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 	float delayCompensation = BLOCKPROCESSINGTIME_S*marksPerTable*1.0f;
     syncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + tempo.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
+    syncErrorB = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(clockBTracker.PercToNextTap() + clockBTracker.bps*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCurB*marksPerTable,1.0), 1.0);
 
 
     SetDacVolts(3, noDeadAngle*EuroRack::SignalVoltRange(inputOutputDescriptors[7].CurAugment().signalType));
@@ -272,7 +290,8 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     }
 
     timeDelta = targetSpeed + speedAlteration + a;
-    timeDeltaB = clockBTracker.bps_filtered*(1.0/marksPerTable);
+    float b = sampleTime*(syncErrorB)*100000.0f;//strong snap to sync with indicator.
+    timeDeltaB = clockBTracker.bps*(1.0/marksPerTable) + b;
 
 	double delta = sampleTime*(timeDelta);
 	delta = MathExtras::ClampMin(delta, 0.0);

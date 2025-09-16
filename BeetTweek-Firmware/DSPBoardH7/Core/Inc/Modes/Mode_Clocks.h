@@ -73,6 +73,7 @@ public:
 
 	float speedVariable = 0.0f;
 	float syncError = 0.0f;
+	float syncErrorB = 0.0f;
 	float targetSpeed = 0.0f;
 	float timeDelta = 0.0f;
 	float timeDeltaB = 0.0f;
@@ -80,7 +81,7 @@ public:
 	const float highSpeedRingSpeedThresh = 2.0f;
 	bool highSpeedRingIndicatorFlag = false;
 	MathExtras::Threshold_Trigger<float> triggers[4];
-	MathExtras::CycleTime_Tracker<float> clockBTracker;
+	MathExtras::TapTempo<float> clockBTracker;
 	MathExtras::ClockOutGate<float, true, true, 0,  0> outputTimeGates[4];
 
 	double timeAccumCur = 0.0;
