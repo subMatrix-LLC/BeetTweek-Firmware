@@ -158,7 +158,7 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 		{
 			if(i == 0)
 			{
-				LEDManager.SetLEDInnerRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255/2, 0);
+				LEDManager.SetLEDInnerRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255, 0);
 				if((tick+1)%LED_NUM_LEDS_PER_RING == 0)
 				{
 
@@ -166,7 +166,7 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 			}
 			else
 			{
-				LEDManager.SetLEDInnerRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255/2, 0);
+				LEDManager.SetLEDInnerRing_Int(tick,  LED_BASE_BRIGHTNESS_255, LED_BASE_BRIGHTNESS_255, 0);
 			}
 			i++;
 		}
