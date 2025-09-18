@@ -103,6 +103,35 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 
 	//LEDManager.SetLEDOuterRing_Float(angleLEDRing,  0,0,LED_BASE_BRIGHTNESS_255);
 
+
+
+	//if Y has input clockB and no tap/ext clock - show error indicator for manual speed control.
+    if(ADCPluggedIn(1) && !ADCPluggedIn(3)){
+		//clock vs clockB error indicator
+		float clkclkspeedErrorRing = (timeDelta-timeDeltaB)*40.0f;
+		clkclkspeedErrorRing = MathExtras::ClampInclusive(clkclkspeedErrorRing, -0.25f, 0.25f);
+		//float clkclkPhaseErrorRing = (timeAccumCur - timeAccumCurB)*20.0f;
+		float clkclkPhaseErrorRing = phaseErrorAB*10.0f;
+		clkclkPhaseErrorRing = MathExtras::ClampInclusive(clkclkPhaseErrorRing, -0.25f, 0.25f);
+
+		float singleMetric = clkclkspeedErrorRing + MathExtras::Abs(clkclkPhaseErrorRing)*MathExtras::Sign(clkclkspeedErrorRing);
+
+		clkclkPhaseErrorRing = MathExtras::Abs(clkclkPhaseErrorRing);
+		clkclkPhaseErrorRing *=  MathExtras::Sign(clkclkspeedErrorRing);
+
+		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, clkclkspeedErrorRing, (MathExtras::Color*)&MathExtras::Color::RED,  (MathExtras::Color*)&MathExtras::Color::RED, 0.5f);
+		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, clkclkPhaseErrorRing, (MathExtras::Color*)&MathExtras::Color::RED,  (MathExtras::Color*)&MathExtras::Color::RED, 0.5f);
+
+
+		//LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, singleMetric, (MathExtras::Color*)&MathExtras::Color::RED,  (MathExtras::Color*)&MathExtras::Color::RED, 0.5f);
+
+    }
+
+
+
+
+
+
 	//Rotating Grid With Center led blue for reference
 	const int inc = LED_NUM_LEDS_PER_RING/(float(marksPerTable-1));
 	int i = 0;
@@ -175,16 +204,6 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 		}
 	}
 
-    if(ADCPluggedIn(1)){
-		//clock vs clockB error indicator
-		float clkclkspeedErrorRing = (timeDelta - timeDeltaB)*20.0f;
-		clkclkspeedErrorRing = MathExtras::ClampInclusive(clkclkspeedErrorRing, -0.5f, 0.5f);
-		float clkclkPhaseErrorRing = (timeAccumCur - timeAccumCurB)*20.0f;
-		clkclkPhaseErrorRing = MathExtras::WrapMinMax(clkclkPhaseErrorRing, -0.25f, 0.25f);
-
-		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, clkclkspeedErrorRing, (MathExtras::Color*)&MathExtras::Color::RED,  (MathExtras::Color*)&MathExtras::Color::RED, 0.5f);
-		LEDManager.SetLEDRingRangeLinear_Float(LEDPanelManager::RINGIDENTIFIER_OUTER, 0.0f, clkclkPhaseErrorRing, (MathExtras::Color*)&MathExtras::Color::GREEN,  (MathExtras::Color*)&MathExtras::Color::GREEN, 0.5f);
-    }
 
 
 	//quarter markers
@@ -235,9 +254,20 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 	float delayCompensation = BLOCKPROCESSINGTIME_S*marksPerTable*1.0f;
-    syncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + tempo.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
-    syncErrorB = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(clockBTracker.PercToNextTap() + clockBTracker.bps*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCurB*marksPerTable,1.0), 1.0);
 
+
+
+    syncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + tempo.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
+    syncErrorB = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(clockBTracker.PercToNextTap() + clockBTracker.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCurB*marksPerTable,1.0), 1.0);
+
+    if(ADCPluggedIn(3))
+    {
+    	phaseErrorAB = MathExtras::WrappedLocalDifference(tempo.PercToNextTap(),clockBTracker.PercToNextTap(),1.0f);
+    }
+    else
+    {
+    	phaseErrorAB = MathExtras::WrappedLocalDifference(float(MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0)),clockBTracker.PercToNextTap(),1.0f);
+    }
 
     SetDacVolts(3, noDeadAngle*EuroRack::SignalVoltRange(inputOutputDescriptors[7].CurAugment().signalType));
 
@@ -279,7 +309,40 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     {
     	//freehand
 		syncError = 0.0f;
-		targetSpeed += 0.0001f*noDeadAngle;
+
+		float speedAdjWeight = 0.0f;
+		float phaseAdjWeight = 0.0f;
+
+		float slightSpeedAdj = 0.0f;
+		float slightPhaseAdj = 0.0f;
+
+		//syncing case
+		if(ADCPluggedIn(1))
+		{
+			float spdError = (timeDelta-timeDeltaB)*100.0f;
+
+
+			speedAdjWeight = MathExtras::ClampMax(MathExtras::Abs(spdError), 1.0f);
+			phaseAdjWeight = 1.0f - speedAdjWeight;
+
+			if(AngleInDeadZone(rawAngle) && MathExtras::Abs(spdError) < 0.01f)
+				slightSpeedAdj = -0.00001f*MathExtras::Sign(spdError)*(1.0f-MathExtras::Abs(phaseErrorAB));
+
+			if(AngleInDeadZone(rawAngle) && MathExtras::Abs(spdError) < 0.1f)
+				slightPhaseAdj = -0.001f*phaseErrorAB;
+		}
+		else
+		{
+			speedAdjWeight = 1.0f;
+			phaseAdjWeight = 0.0f;
+		}
+
+		targetSpeed += 0.0001f*speedAdjWeight*noDeadAngle + slightSpeedAdj ;//speed adjust
+		timeAccumCur += 0.0001f*phaseAdjWeight*noDeadAngle + slightPhaseAdj;//phase shift
+
+
+
+
 		targetSpeed = MathExtras::ClampMin<float>(targetSpeed, 0.0);
     }
 
@@ -290,8 +353,10 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     }
 
     timeDelta = targetSpeed + speedAlteration + a;
-    float b = sampleTime*(syncErrorB)*100000.0f;//strong snap to sync with indicator.
-    timeDeltaB = clockBTracker.bps*(1.0/marksPerTable) + b;
+    float b = 0.0f;
+
+    b = sampleTime*(syncErrorB)*100000.0f;//strong snap to sync with indicator.
+    timeDeltaB = clockBTracker.bps_filtered*(1.0/marksPerTable);//+ b;
 
 	double delta = sampleTime*(timeDelta);
 	delta = MathExtras::ClampMin(delta, 0.0);
@@ -344,6 +409,8 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 	timeAccumCur = MathExtras::WrapOnceMax(timeAccumCur, 1.0);
 	timeAccumCurB = MathExtras::WrapOnceMax(timeAccumCurB, 1.0);
+
+
 }
 
 
