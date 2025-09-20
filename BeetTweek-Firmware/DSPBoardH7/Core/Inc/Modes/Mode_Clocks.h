@@ -66,10 +66,14 @@ public:
 	void OnSaveTimerTimeout() override;
 
 
-	int marksPerTable = 8;
+	int marksPerTable = 4;
 	float angFactor = 0.0f;
 	float rawAngle = 0.0f;
 	float noDeadAngle = 0.0f;
+
+	float deltaErrorSig = 0.0f;
+	float deltaErrorSigFiltered = 0.0f;
+	bool isSyncedAB = false;
 
 	float speedVariable = 0.0f;
 	float timeAccumSyncError = 0.0f;
@@ -84,6 +88,8 @@ public:
 	MathExtras::Threshold_Trigger<float> triggers[4];
 	MathExtras::TapTempo<float> clockBTracker;
 	MathExtras::ClockOutGate<float, true, true, 0,  0> outputTimeGates[4];
+
+
 
 	double timeAccumCur = 0.0;
 	double timeAccumCurB = 0.0;
