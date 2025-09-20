@@ -133,7 +133,7 @@ void Mode_Clocks::UpdateLEDS(float sampleTime)
 
 
 	//Rotating Grid With Center led blue for reference
-	const int inc = LED_NUM_LEDS_PER_RING/(float(marksPerTable-1));
+	const int inc = LED_NUM_LEDS_PER_RING/(float(marksPerTable));
 	int i = 0;
 	for(int tick = angleLEDRing*LED_NUM_LEDS_PER_RING; tick <=  angleLEDRing*LED_NUM_LEDS_PER_RING + LED_NUM_LEDS_PER_RING; tick += inc)
 	{
@@ -256,9 +256,17 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 	float delayCompensation = BLOCKPROCESSINGTIME_S*marksPerTable*1.0f;
 
 
+	auto delayCompOffset = tempo.bps_filtered*delayCompensation;
 
-    syncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + tempo.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
-    syncErrorB = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(clockBTracker.PercToNextTap() + clockBTracker.bps_filtered*delayCompensation, 1.0f)), MathExtras::WrapMax(timeAccumCurB*marksPerTable,1.0), 1.0);
+
+	timeAccumSyncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(tempo.PercToNextTap() + delayCompOffset, 1.0f)), MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0), 1.0);
+
+	if(ADCPluggedIn(1))
+    {
+    	timeAccumBSyncError = MathExtras::WrappedLocalDifference( double(MathExtras::WrapMax(clockBTracker.PercToNextTap() + delayCompOffset, 1.0f)), MathExtras::WrapMax(timeAccumCurB*marksPerTable,1.0), 1.0);
+    }
+
+
 
     if(ADCPluggedIn(3))
     {
@@ -266,7 +274,8 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     }
     else
     {
-    	phaseErrorAB = MathExtras::WrappedLocalDifference(float(MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0)),clockBTracker.PercToNextTap(),1.0f);
+    	auto delayCompOffset = clockBTracker.bps_filtered*delayCompensation;
+    	phaseErrorAB = MathExtras::WrappedLocalDifference(float(MathExtras::WrapMax(timeAccumCur*marksPerTable-delayCompOffset,1.0)),float(MathExtras::WrapMax(timeAccumCurB*marksPerTable,1.0)),1.0f);
     }
 
     SetDacVolts(3, noDeadAngle*EuroRack::SignalVoltRange(inputOutputDescriptors[7].CurAugment().signalType));
@@ -293,6 +302,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
     float tempoSpeed =  tempo.bps_filtered*(1.0/marksPerTable);
+    float tempoSpeedB =  clockBTracker.bps_filtered*(1.0/marksPerTable);
 
 
 
@@ -308,7 +318,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     else
     {
     	//freehand
-		syncError = 0.0f;
+		timeAccumSyncError = 0.0f;
 
 		float speedAdjWeight = 0.0f;
 		float phaseAdjWeight = 0.0f;
@@ -347,16 +357,16 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
     }
 
     float a = 0.0f;
-    if(AngleInDeadZone(rawAngle))
+    if(AngleInDeadZone(rawAngle) && ADCPluggedIn(3))//if w/input and no haptic twist
     {
-    	a = sampleTime*(syncError)*100000.0f;//strong snap back to sync.
+    	a = sampleTime*(timeAccumSyncError)*100000.0f;//strong snap to get timeAccum to track with bpm.
     }
 
     timeDelta = targetSpeed + speedAlteration + a;
     float b = 0.0f;
 
-    b = sampleTime*(syncErrorB)*100000.0f;//strong snap to sync with indicator.
-    timeDeltaB = clockBTracker.bps_filtered*(1.0/marksPerTable);//+ b;
+    b = sampleTime*(timeAccumBSyncError)*100000.0f;///strong snap to get timeAccumB to track with bpmB.
+    timeDeltaB = tempoSpeedB + b;
 
 	double delta = sampleTime*(timeDelta);
 	delta = MathExtras::ClampMin(delta, 0.0);
@@ -374,8 +384,8 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 	curSpeed = delta;
-	timeAccumCur += delta;
 
+	timeAccumCur += delta;
 	timeAccumCurB += deltaB;
 
 
@@ -386,7 +396,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 		float pulseLevel;
-		if(ang < 0.5f)
+		if(ang < 0.1f)
 			pulseLevel = outputTimeGates[i].Process(1.0f);
 		else
 			pulseLevel = outputTimeGates[i].Process(0.0f);
@@ -490,6 +500,7 @@ void Mode_Clocks::MainThreadUpdateFunction(float sampleTime)
 
 
 	//printf("%f, %f, %f\n", syncError, tempo.PercToNextTap(),  MathExtras::WrapMax(timeAccumCur*marksPerTable,1.0));
+	printf("%f\n", clockBTracker.bps_filtered);
 
 
 	//make save timer run routinely.

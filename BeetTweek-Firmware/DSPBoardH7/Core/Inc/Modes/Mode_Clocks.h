@@ -72,8 +72,8 @@ public:
 	float noDeadAngle = 0.0f;
 
 	float speedVariable = 0.0f;
-	float syncError = 0.0f;
-	float syncErrorB = 0.0f;
+	float timeAccumSyncError = 0.0f;
+	float timeAccumBSyncError = 0.0f;
 	float phaseErrorAB = 0.0f;
 	float targetSpeed = 0.0f;
 	float timeDelta = 0.0f;
