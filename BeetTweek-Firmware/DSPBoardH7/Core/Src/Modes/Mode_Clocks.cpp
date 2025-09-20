@@ -408,7 +408,7 @@ void Mode_Clocks::AudioDSPFunction(float sampleTime, int bufferSwap)
 
 
 		float pulseLevel;
-		if(ang < 0.1f)
+		if(ang < 0.5f)
 		{
 			pulseLevel = outputTimeGates[i].Process(1.0f);
 		}
