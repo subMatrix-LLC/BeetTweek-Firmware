@@ -21,7 +21,7 @@
 #include "sdmmc.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "main.h"
 /* USER CODE END 0 */
 
 SD_HandleTypeDef hsd1;
@@ -32,7 +32,10 @@ void MX_SDMMC1_SD_Init(void)
 {
 
   /* USER CODE BEGIN SDMMC1_Init 0 */
+#ifdef BOARD_VERIFICATION_MODE
 
+	return;
+#endif
   /* USER CODE END SDMMC1_Init 0 */
 
   /* USER CODE BEGIN SDMMC1_Init 1 */

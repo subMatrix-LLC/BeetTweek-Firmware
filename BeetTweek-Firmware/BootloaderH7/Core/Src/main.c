@@ -55,7 +55,7 @@
 /* USER CODE BEGIN PM */
 
 
-//#define BOARD_VERIFICATION_MODE
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
