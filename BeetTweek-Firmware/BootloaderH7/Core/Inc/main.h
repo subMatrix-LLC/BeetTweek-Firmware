@@ -47,7 +47,7 @@ extern volatile int panelReversed;
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define BOARD_VERIFICATION_MODE
+//#define BOARD_VERIFICATION_MODE
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

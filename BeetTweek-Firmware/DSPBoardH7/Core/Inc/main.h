@@ -47,7 +47,7 @@ extern "C" {
 
 
 
-static const uint32_t firmwareVersion = 19;
+static const uint32_t firmwareVersion = 20;
 extern volatile int fullyStartedUp;
 extern volatile int panelReversed;
 
